@@ -1323,6 +1323,12 @@ with (deity) {
                 case "itemfeather": {
                     draw_sprite_ext(spr_feather,0,x*16+off+off2x+8+bigboxoffset,y*16+off+off2y+8,1,1,0,c_white,0.5)
                 } break
+                case "itembeetroot": {
+                    draw_sprite_ext(spr_beetroot,0,x*16+off+off2x+8+bigboxoffset,y*16+off+off2y+8,1,1,0,c_white,0.5)
+                } break
+                case "itemgreenlui": {
+                    draw_sprite_ext(spr_greenlui,0,x*16+off+off2x+8+bigboxoffset,y*16+off+off2y+8,1,1,0,c_white,0.5)
+                } break
                 case "mini": {
                     draw_sprite_ext(spr_mushsmall,0,x*16+off+off2x+8+bigboxoffset,y*16+off+off2y+4,1,1,0,c_white,0.5)
                 } break
