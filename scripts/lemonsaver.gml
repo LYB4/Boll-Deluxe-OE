@@ -44,7 +44,7 @@ writestring("[lemon]")
 l=lemongrab.length
 
 map=ds_map_create()
-ds_map_add(map,"v","2.1.6")
+ds_map_add(map,"v","2.1.6s")
 ds_map_add(map,"thumbx",lemongrab.thumbx)
 ds_map_add(map,"thumby",lemongrab.thumby)
 ds_map_add(map,"thumbregion",lemongrab.thumbregion)
@@ -133,7 +133,9 @@ for (r=0;r<8;r+=1) {
                 with (water) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
-                    external_call(global._BufY,b&$ffff,0) //writeshort
+                    external_call(global._BufY,b&$ffff,0) //writeushort
+                    external_call(global._BufY,scalex,0) //writeushort
+                    external_call(global._BufY,scaley,0) //writeushort
                 }
             }
         } else if obj=groundsemi||obj=slopel1s||obj=sloper2s||obj=sloper1s||obj=slopel2s||obj=uslopel1s||obj=uslopel2s||obj=usloper1s||obj=usloper2s{
@@ -146,12 +148,16 @@ for (r=0;r<8;r+=1) {
                 with (semi) if (self.obj=obj) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
-                    external_call(global._BufY,b&$ffff,0) //writeshort
+                    external_call(global._BufY,b&$ffff,0) //writeushort
+                    external_call(global._BufY,scalex,0) //writeushort
+                    external_call(global._BufY,scaley,0) //writeushort
                 }
                 with (deity) if (self.obj=obj) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
-                    external_call(global._BufY,b&$ffff,0) //writeshort
+                    external_call(global._BufY,b&$ffff,0) //writeushort
+                    external_call(global._BufY,scalex,0) //writeushort
+                    external_call(global._BufY,scaley,0) //writeushort
                 }
             }
         } else if obj=groundback||obj=slopel1b||obj=sloper2b||obj=sloper1b||obj=slopel2b||obj=uslopel1b||obj=usloper2b||obj=usloper1b||obj=uslopel2b{
@@ -164,12 +170,16 @@ for (r=0;r<8;r+=1) {
                 with (back) if (self.obj=obj) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
-                    external_call(global._BufY,b&$ffff,0) //writeshort
+                    external_call(global._BufY,b&$ffff,0) //writeushort
+                    external_call(global._BufY,scalex,0) //writeushort
+                    external_call(global._BufY,scaley,0) //writeushort
                 }
                 with (deity) if (self.obj=obj) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
-                    external_call(global._BufY,b&$ffff,0) //writeshort
+                    external_call(global._BufY,b&$ffff,0) //writeushort
+                    external_call(global._BufY,scalex,0) //writeushort
+                    external_call(global._BufY,scaley,0) //writeushort
                 }
             }
         } else {
@@ -184,7 +194,9 @@ for (r=0;r<8;r+=1) {
                     dataid=j
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
-                    external_call(global._BufY,b&$ffff,0) //writeshort
+                    external_call(global._BufY,b&$ffff,0) //writeushort
+                    external_call(global._BufY,scalex,0) //writeushort
+                    external_call(global._BufY,scaley,0) //writeushort
                     if (ent) for (k=0;k<8;k+=1) external_call(global._BufB,string(data[k]),0) //writestring
                 }
             }

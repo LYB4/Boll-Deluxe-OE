@@ -5,6 +5,8 @@ action_id=603
 applies_to=self
 */
 mask_index=spr_mask1x1
+scalex=1
+scaley=1
 #define Destroy_0
 /*"/*'/**//* YYD ACTION
 lib_id=1

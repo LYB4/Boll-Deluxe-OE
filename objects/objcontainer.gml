@@ -13,6 +13,8 @@ mask_index=spr_mask1x1
 image_speed=0
 memx=x
 new=1
+scalex=1
+scaley=1
 
 for (i=0;i<8;i+=1) data[i]=""
 #define Destroy_0

@@ -13,6 +13,7 @@ toolname[3]="Boundary Tool (E)#Left click: Mark screen as forbidden#Right click:
 toolname[4]="Thumbnail Tool"
 toolname[7]="Reference Graphic Tool (R)#Left click: move#Right click: load/unload"
 toolname[9]="Spawn Point (W)#Left click: Player Spawn#Right click: Testing Spawn"
+toolname[10]="Scale Tool (T)#Left click: Resize Object"
 #define Other_10
 /*"/*'/**//* YYD ACTION
 lib_id=1

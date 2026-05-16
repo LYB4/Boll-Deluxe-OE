@@ -58,6 +58,7 @@ if (ctrl) {
     if (keyboard_check_pressed(ord("W"))) {tool=9 if !(settings("nolemonsound")) sound("lemonselecttool")} //Spawn Marker
     if (keyboard_check_pressed(ord("E"))) {tool=3 if !(settings("nolemonsound")) sound("lemonselecttool")} //Boundary Tool
     if (keyboard_check_pressed(ord("R"))) {tool=7 if !(settings("nolemonsound")) sound("lemonselecttool")} //Reference Tool
+    if (keyboard_check_pressed(ord("T"))) {tool=10 if !(settings("nolemonsound")) sound("lemonselecttool")} //Scale Tool
     if (keyboard_check_pressed(ord("G"))) {if !(settings("nolemonsound")) sound("lemonselecttool") with (gridtoggle) event_user(0)}
     if (keyboard_check_pressed(vk_delete)) {editdeleteselection()}
     if (keyboard_check_pressed(vk_f5)) {edittest(1)}
@@ -96,6 +97,8 @@ if !settings("funmode") {
     image_angle=0;
 }
 
+if (tool == 10 && drawregion._scaleoutline) sprite_index = spr_coolhandcursor
+else sprite_index = spr_cursor
 draw_self();
 
 //Selection Ruler

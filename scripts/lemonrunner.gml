@@ -7,8 +7,8 @@
    initial v. renex nov/2018
 
 */
-var offx,o,i,j,count,lg;
-
+var offx,o,i,j,count,lg,_tim;
+_tim = current_time
 lg=lemongrab.id
 
 with (spawner) {
@@ -62,29 +62,103 @@ repeat (8) {
         if (water==16) {water=-16 with (instance_create(offx,0,barrier)) {image_xscale=(other.x-x)/16}}
     }
 
-
+    var m, n;
 
     with (lg.gods[i]) {
         if obj {
-            o=instance_create(offx+x*16+off+off2x,y*16+off+off2y+16,obj)
-            count=lg.objlist[dataid,3]
-            if (count) {j=0 repeat (count) {variable_instance_set(o,lg.objlist[dataid,5+j],data[j]) j+=1}}
+            updatedeities(1)
+
+            m = 0; n = 0;
+            scalex = max(1, scalex); scaley = max(1, scaley)
+            var _obj; _obj = obj;
+
+            switch (obj) {
+                case groundblock: _obj = ground;
+                case ground:
+                case phaser:
+                case barrier:
+                    o=instance_create(offx+x*16+off+off2x,y*16+off+off2y+16,_obj)
+                    o.image_xscale = scalex;
+                    o.image_yscale = scaley;
+                if (obj != groundblock) break;
+
+                default:
+                    repeat (scalex) {
+                        repeat (scaley) {
+                            o=instance_create(offx+x*16+off+off2x+(m*16*_xsc),y*16+off+off2y+(n*16*_ysc)+16,obj)
+                            if (obj == groundblock) o.scaled = 1;
+                            count=lg.objlist[dataid,3]
+                            if (count) {j=0 repeat (count) {variable_instance_set(o,lg.objlist[dataid,5+j],data[j]) j+=1}}
+                            n += 1;
+                        }
+                        n = 0;
+                        m += 1;
+                    }
+                break;
+            }
+
+
+
             if (current_time>global.loadtime+64) loadtext()
         }
     }
     with (lg.waters[i]) {
-        instance_create(offx+x*16,y*16+16,waterblock)
+        updatedeities(1)
+
+        m = 0; n = 0;
+        scalex = max(1, scalex); scaley = max(1, scaley)
+        repeat (scalex) {
+            repeat (scaley) {
+                instance_create(offx+x*16+(m*16*_xsc),y*16+(n*16*_ysc)+16,waterblock)
+                n += 1;
+            }
+            n = 0;
+            m += 1;
+        }
+
         if (current_time>global.loadtime+64) loadtext()
     }
     with (lg.semis[i]) {
         if obj {
-            instance_create(offx+x*16,y*16+16,obj)
+            updatedeities(1)
+
+            m = 0; n = 0;
+            scalex = max(1, scalex); scaley = max(1, scaley)
+            repeat (scalex) {
+                repeat (scaley) {
+                    instance_create(offx+x*16+(m*16*_xsc),y*16+(n*16*_ysc)+16,obj)
+                    n += 1;
+                }
+                n = 0;
+                m += 1;
+            }
+
             if (current_time>global.loadtime+64) loadtext()
         }
     }
     with (lg.backs[i]) {
         if obj {
-            instance_create(offx+x*16,y*16+16,obj)
+            updatedeities(1)
+
+            m = 0; n = 0;
+            scalex = max(1, scalex); scaley = max(1, scaley)
+
+            if (obj == groundsemi) {
+                o=instance_create(offx+x*16,y*16+16,obj)
+                o.image_xscale = scalex;
+                o.image_yscale = scaley;
+            }
+
+            repeat (scalex) {
+                repeat (scaley) {
+                    o=instance_create(offx+x*16+(m*16*_xsc),y*16+(n*16*_ysc)+16,obj)
+                    if (obj == groundsemi) o.scaled = 1;
+                    n += 1;
+                }
+                n = 0;
+                m += 1;
+            }
+
             if (current_time>global.loadtime+64) loadtext()
         }
     }
@@ -113,4 +187,4 @@ repeat (8) {
 with (objcontainer) instance_destroy()
 with (watercontainer) instance_destroy()
 with (semicontainer) instance_destroy()
-with (backcontainer) instance_destroy()
+with (backcontainer) instance_destroy() show_debug_message("tim: "+string(current_time - _tim))

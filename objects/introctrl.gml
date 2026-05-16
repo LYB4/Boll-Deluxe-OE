@@ -162,12 +162,13 @@ if (bt=-1) is=bs else is=1/bs
 vs=mean(bs,vs)
 
 boll=sureface("boll",360,360)
-boll2=sureface("boll2",180,180)
+boll2=sureface("boll2",180 + (sqaur || triangel)*40,180 + (sqaur || triangel)*40)
 
 if (!sureface_set_target("boll2")) exit
 draw_clear_alpha(0,1)
 draw_set_blend_mode(bm_subtract)
-draw_circle(90,90,70.5,0)
+if sqaur draw_rectangle(0,0,220,220,0)
+else draw_circle(90+(triangel*20),90+(triangel*20),70.5+(triangel*15.5),0)
 draw_set_blend_mode(0)
 
 if (!sureface_set_target("boll")) exit
@@ -196,6 +197,7 @@ if (craft) {
 } else {
     d3d_set_lighting(1)
     if (debug_mode) d3d_light_define_ambient($aa)
+    if (sqaur) d3d_light_define_ambient($aa0055)
     if (triangel) d3d_light_define_ambient($00aaaa)
     else d3d_light_define_ambient($aa0000)
         if (triangel) {
@@ -216,6 +218,7 @@ if (craft) {
     d3d_transform_add_rotation_z(time*0.7)
     d3d_transform_add_translation(90,90,0)
     if (triangel) {d3d_set_shading(0) d3d_draw_ellipsoid(-72,-72,-72,72,72,72,-1,0,0,5) d3d_set_shading(1)}
+    else if (sqaur) {d3d_set_shading(0) d3d_draw_block(-45,-45,-45,45,45,45,-1,0,0) d3d_set_shading(1)}
     else d3d_model_draw(global.boll,0,0,0,-1)
     d3d_transform_set_identity()
     d3d_set_lighting(0)
@@ -231,30 +234,39 @@ surface_reset_target()
 
 //listen i'm lazy ,ok? -scarf
 if cantriangel=0  && !onechance{
-onechance=1
-if ((!global.easter && egg()) || keyboard_check(vk_numpad3) || keyboard_check(ord("3"))) {
-    instance_create(0,0,blastprocessor)
-    cantriangel=1
-    mus_stop("_intro",0)
-}
-if (!instance_exists(blastprocessor)) {
-    if (egg() || keyboard_check(ord("T"))) {
-        introslide1.sprite_index=spr_luigi
-        introslide2.sprite_index=spr_tails
-        introtape.image_index=1
+    onechance=1
+    if ((!global.easter && egg()) || keyboard_check(vk_numpad3) || keyboard_check(ord("3"))) {
+        instance_create(0,0,blastprocessor)
         cantriangel=1
-        triangel=1
+        mus_stop("_intro",0)
     }
-}
-if (!instance_exists(blastprocessor)) {
-    if (egg() || keyboard_check(ord("G"))) {
-        introslide1.sprite_index=spr_garf
-        introslide2.sprite_index=spr_introsonic
-        introtape.image_index=2
-        cantriangel=1
-        triangel=0
+    if (!instance_exists(blastprocessor)) {
+        if (egg() || keyboard_check(ord("T"))) {
+            introslide1.sprite_index=spr_luigi
+            introslide2.sprite_index=spr_tails
+            introtape.image_index=1
+            cantriangel=1
+            triangel=1
+            sqaur=0
+        }
+    
+        if (egg() || keyboard_check(ord("G"))) {
+            introslide1.sprite_index=spr_garf
+            introslide2.sprite_index=spr_introsonic
+            introtape.image_index=2
+            cantriangel=1
+            triangel=0
+            sqaur=0
+        }
+        if (egg() || keyboard_check(ord("Q"))) {
+            introslide1.sprite_index=spr_intromario
+            with (introslide2) instance_change(introslide2sqaur,true)
+            introtape.image_index=3
+            cantriangel=1
+            triangel=0
+            sqaur=1
+        }
     }
-}
 }
 #define Keyboard_17
 /*"/*'/**//* YYD ACTION

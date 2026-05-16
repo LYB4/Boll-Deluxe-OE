@@ -96,6 +96,8 @@ jumpedoutspin=0
 #define effectsfront
 if iaminsidemyself=1 exit
 
+if projectilepalettes scr_applyPaletteSegmentedAlpha(global.shaderPaletteSwapAlpha,global.palettesprites[p2*100],global.pal_1[p2]+1,global.pal_2[p2]+1,global.pal_3[p2]+1,global.pal_4[p2]+1,size,alpha*(1-0.75*shadow),totpal+1)
+
 if (hsp!=0 && !jump){
 	
 	draw_sprite_general(sheets[size* !global.singlesheet[p2]],0,margin+dashspark_sheetx[size*projcoordbysize]+(sparkanim*16),dashspark_sheety[size*projcoordbysize],15,8,x-(sign(hsp)*20),y+6+dy,sign(hsp),1,sign(hsp),$ffffff,$ffffff,$ffffff,$ffffff,1)
@@ -112,6 +114,8 @@ if randomsparksGO mod 2{
 	draw_sprite_part_ext(sheets[size* !global.singlesheet[p2]],0,overlayspark_sheetx[size*projcoordbysize],overlayspark_sheety[size*projcoordbysize],25,31,round(x-10),round(y-16+dy),1,1,$ffffff,1)
 	
 }if randomsparksGO randomsparksGO-=1
+
+if projectilepalettes shader_reset()
 
 if e_timer mod 3 || (sparkcharge && sparkanim){
 	iaminsidemyself=1
@@ -457,6 +461,7 @@ instance_create(x,y,kickpart) instance_destroy()
 }
 if (event="draw") {
 
+if owner.projectilepalettes scr_applyPaletteSegmentedAlpha(global.shaderPaletteSwapAlpha,global.palettesprites[owner.p2*100],global.pal_1[owner.p2]+1,global.pal_2[owner.p2]+1,global.pal_3[owner.p2]+1,global.pal_4[owner.p2]+1,owner.size,1*(1-0.75*shadow),owner.totpal+1)
 
 draw_sprite_part_ext(owner.sheets[owner.size*!global.singlesheet[owner.p2]],0,
 
@@ -465,6 +470,7 @@ draw_sprite_part_ext(owner.sheets[owner.size*!global.singlesheet[owner.p2]],0,
 12,12,round(x-8),round(y-8),xsc,1,$ffffff,1)
 }
 
+if owner.projectilepalettes shader_reset()
 
 } else {
 ignoreoncount=0
@@ -581,10 +587,16 @@ else if (captype=-1) {captype=coll.object_index biome=coll.biome with (coll) {in
 }
 
 if (event="draw") {
+   
+if owner.usepalette scr_applyPaletteSegmentedAlpha(global.shaderPaletteSwapAlpha,global.palettesprites[owner.p2*100],global.pal_1[owner.p2]+1,global.pal_2[owner.p2]+1,global.pal_3[owner.p2]+1,global.pal_4[owner.p2]+1,owner.size,1,owner.totpal+1)
+    
 depth=owner.depth+1
 if global.debug draw_self()
 w=8+(abs(x-owner.x))
 draw_sprite_part_ext(owner.sheets[owner.size* !global.singlesheet[p2]],0,(owner.claw_sheetx[owner.size*owner.projcoordbysize]+63)-(w),owner.claw_sheety[owner.size*owner.projcoordbysize],w,15,round(x-(w-8)*xsc),round(y-8),xsc,1,$ffffff,1)
+    
+if owner.usepalette shader_reset()
+    
 if (captype) {
 if (captype=mushroom) ssw_items("mushroom") 
 if (captype=flower) ssw_items("fflower")
@@ -1596,11 +1608,12 @@ if (!irandom(10)) {playsfx(name+"splode") with (instance_create(x+irandom_range(
 if (!irandom(30)) playsfx(name+"splode")
 
 } else if (event="draw") {
+	if owner.projectilepalettes scr_applyPaletteSegmentedAlpha(global.shaderPaletteSwapAlpha,global.palettesprites[owner.p2*100],global.pal_1[owner.p2]+1,global.pal_2[owner.p2]+1,global.pal_3[owner.p2]+1,global.pal_4[owner.p2]+1,owner.size,1,owner.totpal+1)
 	with dethplotion{
 		draw_sprite_part(other.sheet,0,owner.deathexplosion_sheetx[owner.size*projcoordbysize]+frame*25,owner.deathexplosion_sheety[owner.size*projcoordbysize],24,24,round(x-12),round(y-12))
 		visible=1
-		
 	}
+	shader_reset();
 }
 
 

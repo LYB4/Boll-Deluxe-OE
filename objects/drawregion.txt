@@ -4,4 +4,4 @@ solid=0
 persistent=0
 depth=1
 parent=
-mask=
+mask=spr_mask1x1

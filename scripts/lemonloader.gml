@@ -81,7 +81,7 @@ lemongrab.thumbregion=ds_map_find_value(map,"thumbregion")
 lemongrab.spawnx=ds_map_find_value(map,"spawnx")
 lemongrab.spawny=ds_map_find_value(map,"spawny")
 lemongrab.spawnr=ds_map_find_value(map,"spawnr")
-if (lv="2.1.5" || lv="2.1.6") {
+if (lv="2.1.5" || lv="2.1.6" || lv="2.1.6s") {
     lemongrab.tspawnx=ds_map_find_value(map,"tspawnx")
     lemongrab.tspawny=ds_map_find_value(map,"tspawny")
     lemongrab.tspawnr=ds_map_find_value(map,"tspawnr")
@@ -93,7 +93,7 @@ if (lv="2.1.5" || lv="2.1.6") {
 lemongrab.levelname=string(ds_map_find_value(map,"name"))
 lemongrab.leveldesc=string(ds_map_find_value(map,"desc"))  
 lemongrab.time=max(30,ds_map_find_value(map,"time"))
-if (lv!="2.1.5" && lv!="2.1.6" && lemongrab.time==600) lemongrab.time=12001
+if (lv!="2.1.5" && lv!="2.1.6" && lv!="2.1.6s" && lemongrab.time==600) lemongrab.time=12001
 ds_map_destroy(map)
 
 global.levelname=lemongrab.levelname
@@ -114,7 +114,7 @@ repeat (8) {
     lemongrab.typeobj[r]=convert193biome(readstring())
     lemongrab.typebg[r]=convert193biome(readstring())
     lemongrab.typemus[r]=convert193biome(readstring())
-    if (lv="2.1.6") lemongrab.typetime[r]=readstring()
+    if (lv="2.1.6" || lv="2.1.6s") lemongrab.typetime[r]=readstring()
     
     else {lemongrab.typetime[r]="day"} //todo: fancy converter script to get the time of day of every biome in the game The Spirits: Release Us
     
@@ -171,7 +171,10 @@ repeat (8) {
             repeat (readuint()) {
                 readbyte()
                 readushort()
-                if (ent) repeat (8) readstring()
+                if (lv == "2.1.6s") { //wastes two whole ushorts on every object for scaling award
+                    readushort()
+                    readushort()
+                } if (ent) repeat (8) readstring()
             }
             converted=1
             show_debug_message("lemon: can't find object called "+qt+str+qt)
@@ -186,6 +189,14 @@ repeat (8) {
                 b=readbyte()
                 b=(b<<16)+readushort()
 
+                if (lv == "2.1.6s") { //wastes two whole ushorts on every object for scaling award
+                    scalex = readushort()
+                    scaley = readushort()
+                } else {
+                    scalex = 1;
+                    scaley = 1;
+                }
+
                 if (obj==waterblock) {
                     w=1 h=1
                     if (ent) {
@@ -196,19 +207,27 @@ repeat (8) {
                     for (u=0;u<w;u+=1) for (v=0;v<h;v+=1) {
                         o=instance_create(b>>12+u,b&$fff+v,water)
                         o.region=r
+                        o.scalex=scalex
+                        o.scaley=scaley
                     }
                 } else if (obj==groundsemi||obj==slopel1s||obj==slopel2s||obj==sloper1s||obj==sloper2s||obj==uslopel1s||obj==uslopel2s||obj==usloper1s||obj==usloper2s) {
                      i=instance_create(b>>12,b&$fff,semi)
                      i.obj=obj
                      i.spr=spr
+                     i.scalex=scalex
+                     i.scaley=scaley
                 } else if (obj==groundback||obj==slopel1b||obj==slopel2b||obj==sloper1b||obj==sloper2b||obj==uslopel1b||obj==uslopel2b||obj==usloper1b||obj==usloper2b) {
                      i=instance_create(b>>12,b&$fff,back)
                      i.obj=obj
                      i.spr=spr
+                     i.scalex=scalex
+                     i.scaley=scaley
                 }else {
                     i=instance_create(b>>12,b&$fff,deity)
                     i.obj=obj
                     i.spr=spr
+                    i.scalex=scalex
+                    i.scaley=scaley
                     i.off=off
                     i.dataid=did
                     if (ent) {
@@ -216,7 +235,7 @@ repeat (8) {
                         if (lemongrab.objlist[did,5]="align") {
                             if (obj=fbarblock && (!string_starts_with(lv,"2.1.")))
                             || ((obj=itembox||obj=phaser||obj=brick||obj=monitor) && !string_starts_with(lv,"2.") && lv!="2.0" && lv!="2.0.5")
-                            || ((obj=warpbox||obj=door) && lv!="2.1.5" && lv!="2.1.6") { //fix objects getting align much later
+                            || ((obj=warpbox||obj=door) && lv!="2.1.5" && lv!="2.1.6" && lv!="2.1.6s") { //fix objects getting align much later
                                 var al;
                                 al=7 repeat (8) {i.data[al+1]=i.data[al] al-=1}
                                 i.data[0]="0"
@@ -241,7 +260,7 @@ repeat (8) {
                                 data[1]="0"
                             }
                         }
-                        if lv!="2.1.5" && lv!="2.1.6" {
+                        if lv!="2.1.5" && lv!="2.1.6" && lv!="2.1.6s" {
                             if (obj == token) {
                                 i.data[0]="0,0"
                                 i.data[1]="1"
@@ -260,6 +279,12 @@ repeat (8) {
                                 if (i.data[1]="key") i.obj=keyitem
                                 if (i.data[1]="undotter") i.data[1]="mushroom"
                                 if (i.data[1]="dotter") i.data[1]="mini"
+                            }
+                        }
+                        if lv!="2.1.6s" {
+                            if (obj == pipeblock || obj == downpipe) { //fix alignment
+                                i.x -= 1;
+                                i.xstart = i.x;
                             }
                         }
                         if (obj==mark) {

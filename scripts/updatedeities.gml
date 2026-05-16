@@ -7,22 +7,22 @@
 
 
 //with (deity) {
-    image_xscale=1
-    image_yscale=1
+image_xscale=1
+image_yscale=1
 
-    switch (obj) {
+switch (obj) {
 
     case slopel1: case sloper1: case usloper2: case uslopel2:
-    case slopel1s : case obj=sloper1s: case uslopel2s: case obj=usloper2s:
-    case slopel1b : case obj=sloper1b: case uslopel2b: case obj=usloper1b:
-    case bighardblock: case obj=bigbrick:
+    case slopel1s : case sloper1s: case uslopel2s: case usloper2s:
+    case slopel1b : case sloper1b: case uslopel2b: case usloper1b:
+    case bighardblock: case bigbrick:
         image_xscale=2
         image_yscale=2
     break;
 
     case slopel2: case sloper2: case usloper1: case uslopel1:
-    case slopel2s: case obj=sloper2s: case uslopel1s: case obj=usloper1s:
-    case slopel2b: case obj=sloper2b: case uslopel1b: case obj=usloper1b:
+    case slopel2s: case sloper2s: case uslopel1s: case usloper1s: case theothersidepipe:
+    case slopel2b: case sloper2b: case uslopel1b: case usloper1b: case sidepipe:
         image_yscale=2
     break;
 
@@ -31,9 +31,28 @@
         image_yscale=5
     break;
 
-    case dashpanel:
+    case dashpanel: case pipeblock: case downpipe:
         image_xscale=2
     break;
+
+    case bigitembox:
+        image_xscale=3
+    break;
+
+}
+
+if (argument[0]) { //get scales and run off
+    _xsc = image_xscale;
+    _ysc = image_yscale;
+
+    if (room == lemon) {
+        image_xscale *= scalex
+        image_yscale *= scaley
+    }
+    exit;
+}
+
+switch (obj) {
 
     case (mark): {
         frame=0
@@ -177,11 +196,7 @@
     case (pipeblock):
     case (sidepipe):
     case (downpipe):
-    case pipeblock || obj=sidepipe || obj=downpipe || obj=theothersidepipe:
-        if (obj=pipeblock) mask_index=spr_mask2x1
-        if (obj=theothersidepipe) image_yscale=2
-        if (obj=downpipe) mask_index=spr_mask2x1
-        if (obj=sidepipe) image_yscale=2
+    case (theothersidepipe):
         point=noone
         if (data[1]!="") with (drawregion.deity) if (obj=pipeblock || obj=sidepipe || obj=downpipe || obj=theothersidepipe || obj=droptarget) if (data[0]=other.data[1]) other.point=id
     break;
@@ -189,8 +204,10 @@
         point=noone
         //Pointer
         if (data[2]!="") with (drawregion.deity) if (obj=door) if (data[1]=other.data[2]) other.point=id
+        //P-Door
+        if (funnytruefalse(data[7])) {keyed=0 frame=3}
         //Locked Door
-        if (data[4]!="0" && !(data[2]="" && data[3]="")) {keyed=1 frame=1}
+        else if (data[4]!="0" && !(data[2]="" && data[3]="")) {keyed=1 frame=1}
         //One-Way Door
         else if (data[2]="" && data[3]="") || funnytruefalse(data[5]) {keyed=0 frame=2}
         //Normal Door
@@ -387,7 +404,6 @@
     } break
 
     case (bigitembox): {
-        image_xscale=3
         spr=spr_bigbox frame=0
         if (data[1]="none") frame=2
     } break
@@ -500,11 +516,24 @@
     }
 //}
 
+_xsc = image_xscale
+_ysc = image_yscale
+image_xscale *= scalex
+image_yscale *= scaley
+
 if (new) {
     x-=verybignumber
     if (place_meeting(xstart,y,drawregion.deity)) instance_destroy()
     x+=verybignumber
     new=0
+}
+
+if (replace_below) {
+    with (object_index) {
+        if (place_meeting(x,y,other.id) && id != other.id)
+            instance_destroy()
+    }
+    replace_below = 0;
 }
 
 /*with (deity) if (new) {

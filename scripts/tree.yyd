@@ -149,6 +149,8 @@
 		|version_check
 		|string_antivirus
 		|ds_map_set
+		|splace_meeting
+		|instance_splace
 	+richpresence
 		|discord_init_dll
 		|discord_init_app
@@ -582,6 +584,7 @@
 	|lemonhappy
 	|unpack_align
 	|lemongrasschecker
+	|lemon_scaleable
 +Special Stage
 	|specialepieces
 	|specialenew

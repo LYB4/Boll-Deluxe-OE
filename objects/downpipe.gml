@@ -4,6 +4,9 @@ lib_id=1
 action_id=603
 applies_to=self
 */
+xstart += 16;
+x = xstart;
+
 xgo=x
 name=""
 content=""

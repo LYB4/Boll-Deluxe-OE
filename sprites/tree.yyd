@@ -165,6 +165,7 @@
 		|spr_editortools
 		|spr_biomes
 		|spr_times
+		|spr_lemonscale
 	+speciale
 		|spr_specialepal
 		|spr_specialebutton
@@ -177,6 +178,7 @@
 		|spr_modicons
 		|spr_moddesc
 	|spr_cursor
+	|spr_coolhandcursor
 	|spr_bigbuttons
 	|spr_gmlegend
 	|spr_button16

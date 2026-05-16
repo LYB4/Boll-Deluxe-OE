@@ -49,7 +49,7 @@ lib_id=1
 action_id=603
 applies_to=self
 */
-global.ptime=600
+global.ptime=777
 sound("itempswitch")
 stagemusic(id,1)
 with instance_create(x,y,pSolid) {alarm[0]=2}
@@ -85,6 +85,7 @@ with (pblockoff) if !switched{
     with instance_create(x,y,pblock) switched=1
     instance_destroy()
 }
+with (door) if (funnytruefalse(is_pdoor) && !switched) {switched=1}
 gamemanager.switched=1
 instance_destroy()
 #define Draw_0
