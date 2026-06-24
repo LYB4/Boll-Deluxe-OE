@@ -2375,3 +2375,10 @@ com_dmgr_dmg_player
 com_dmgr_dmg_enemy
 draw_sprite_general_centered
 com_defaultcpupartner
+indexCustomObjects
+cleanupObjects
+add_custom_sprite
+delete_custom_sprite
+get_custom_sprite
+cleanupCustomSprites
+custom_sprite_exists

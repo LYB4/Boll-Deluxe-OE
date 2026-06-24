@@ -635,4 +635,11 @@
 	|cleanupScripts
 	|indexExtensions
 	|indexScripts
+	|cleanupObjects
+	|indexCustomObjects
+	|cleanupCustomSprites
+	|add_custom_sprite
+	|delete_custom_sprite
+	|get_custom_sprite
+	|custom_sprite_exists
 |lemon_get_lemoninfo

@@ -4,12 +4,13 @@ lib_id=1
 action_id=603
 applies_to=self
 */
-image_speed=0
+image_speed=0;
 
-scriptname = ""
-stepevent = -1
-createevent = -1
-drawevent = -1
+scriptname = "";
+stepevent = -1;
+createevent = -1;
+drawevent = -1;
+triggeredevent = -1;
 #define Step_0
 /*"/*'/**//* YYD ACTION
 lib_id=1

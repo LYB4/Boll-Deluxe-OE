@@ -120,6 +120,7 @@ global.mousebacklock=0
 global.scriptobj=verybignumber
 global.scripts=0
 global.levelscripts = ds_map_create();
+global.objectscripts = ds_map_create();
 global.tcalc=0
 global.halign=0
 global.valign=0
@@ -183,5 +184,7 @@ if (!global.easter && egg(1)) {
 global.modlist=ds_list_create();
 global.modtype=ds_list_create();
 global.extensionlist=ds_list_create();
+global.customsprites=ds_map_create();
 
+indexCustomObjects();
 indexExtensions();

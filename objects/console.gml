@@ -95,25 +95,22 @@ if (keyboard_check_pressed(vk_enter) && !off) {
         break;
 
         case "reloadobject":
-        case "deloadobject":
-        case "delobj":
-        case "objdel":
-            mytype=arg
-
-
-
-            if variable_global_get("cobject_code_"+mytype)  {
-                global.cobjectentrypoint="deloaded"
-                code_execute(variable_global_get("cobject_code_"+mytype)) //let the object deload itself and whatever else is in there.
-
-                code_destroy(variable_global_get("cobject_code_"+mytype)) //destroy the object's code to prevent any funny leakage.
-                variable_global_set("cobject_code_"+mytype,0)             //and finally, set the global variable's code to 0.
-
+        case "reloadobjects":
+        case "relobj":
+        case "objrel":
+            if (global.gamemode == "timeattack") && (room==game) {
+                ping("You cannot use this in time attack!")
+                sound("systemcodeblockfail")
+                exit;
             }
 
-            //p simple, huh?
+            cleanupObjects();
+            indexCustomObjects();
 
-         break;
+            with(customobject) {
+                event_user(0);
+            }
+        break;
 
         case "reloadworld":
         case "worldreload":
@@ -321,7 +318,14 @@ if (keyboard_check_pressed(vk_enter) && !off) {
                 sound("systemreturn")
                 ping("Cannot use command outside of a game.")
                 exit;
+            } else {
+                if (global.gamemode == "timeattack") {
+                    ping("You cannot use this in time attack!")
+                    sound("systemcodeblockfail")
+                    exit;
+                }
             }
+
             cleanupScripts();
             indexScripts();
             with scriptblock {event_user(0)}

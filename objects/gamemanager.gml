@@ -327,11 +327,9 @@ if !players[view_current].dontdrawdefaulthud && hud_alpha[view_current] > 0.0 {
     drawskinnablehud()
 }
 
-if !pause && !players[view_current].hudoff_custom{
+if !pause && !players[view_current].hudoff_custom {
     with customobject {
-        global.cobjectentrypoint="draw_hud"
-        code_execute(my_code)
-
+        code_execute(drawguievent)
     }
 }
 

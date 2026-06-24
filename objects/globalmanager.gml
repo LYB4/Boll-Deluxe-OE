@@ -136,6 +136,8 @@ if (room=lemon || room=speciale) {
     external_call(global.dll_dragaccept,global.winhandle,0)
     external_call(global.dll_dragclear)
 }
+
+cleanupCustomSprites();
 #define Draw_0
 /*"/*'/**//* YYD ACTION
 lib_id=1
