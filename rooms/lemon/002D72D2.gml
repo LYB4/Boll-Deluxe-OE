@@ -1,2 +1,2 @@
 if !global.gamemaker instance_destroy()
-n=5
+n=6

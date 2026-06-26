@@ -2,6 +2,10 @@ var type,i;
 
 type=argument[1]
 
+if (is_string(argument[0])) {
+    return string(lemon_get_lemoninfo("editobjmenu",argument[1],argument[2]))
+}
+
 switch (argument[0]) {
     case itembox: {
         if (type=1) {
@@ -1221,9 +1225,7 @@ switch (argument[0]) {
 
     case customobject:
         if type>0{
-            global.cobjectlemonreturnvalue="[NO DATA]"
-            lemon_get_lemoninfo("editobjmenu",type,argument[2])
-            return string(global.cobjectlemonreturnvalue)
+            return string(lemon_get_lemoninfo("editobjmenu",type,argument[2]))
         }else return get_string("Custom Object's name:",argument[2])
     break;
 

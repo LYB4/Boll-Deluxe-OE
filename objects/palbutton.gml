@@ -46,5 +46,14 @@ action_id=603
 applies_to=self
 */
 event_inherited()
-draw_sprite_ext(spr_editpal,lemongrab.objlist[obj,25],x,y,1,1,0,c_black,0.5)
-draw_sprite(spr_editpal,lemongrab.objlist[obj,25],x-1,y-1)
+var palindex, objid;
+objid = lemongrab.objlist[obj, 0];
+palindex = lemongrab.objlist[obj,25];
+
+if !is_string(objid) {
+    draw_sprite_ext(spr_editpal,palindex,x,y,1,1,0,c_black,0.5)
+    draw_sprite(spr_editpal,palindex,x-1,y-1)
+} else {
+    draw_sprite_ext(global.lemonCustomObjectPal,palindex-1,x,y,1,1,0,c_black,0.5)
+    draw_sprite(global.lemonCustomObjectPal,palindex-1,x-1,y-1)
+}

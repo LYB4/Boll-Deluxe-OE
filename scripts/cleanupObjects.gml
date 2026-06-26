@@ -12,3 +12,4 @@ repeat(size) {
     i+=1;
 }
 ds_map_clear(global.objectscripts);
+ds_map_clear(global.objectlemonlist);

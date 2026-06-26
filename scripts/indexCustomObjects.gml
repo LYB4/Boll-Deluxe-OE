@@ -2,6 +2,8 @@ var dir;
 
 dir = global.workdir+"SBDX_mods\object\"
 
+global.lemonCustomObjectPal=sprite_duplicate(spr_editpalblank)
+
 cleanupScripts();
 
 var _folder;
@@ -55,6 +57,9 @@ while(_folder != "") {
                     case "cleanup":
                     case "deloaded":
                     case "lemon_display":
+                    case "lemon_preview":
+                    case "lemon_data":
+                    case "updatedeities":
                     case "editobjmenu":
                     case "editobjdataname":
                     case "trigger":
@@ -73,6 +78,34 @@ while(_folder != "") {
                 i+=1;
             }
             ds_list_destroy(_list);
+
+            _file=dir+_folder+"\lemon.ini";
+
+            if (file_exists(_file)) {
+                var _tempmap;
+                _tempmap = ds_map_create();
+
+                ini_open(_file);
+
+                ds_map_set(_tempmap,"displayname",ini_read_string("lemon","displayname","missing name"))
+                ds_map_set(_tempmap,"description",ini_read_string("lemon","description",""))
+                ds_map_set(_tempmap,"palspritename",ini_read_string("lemon","palspritename",""))
+
+                if (ds_map_get(_tempmap,"palspritename")!="") {
+                    if (file_exists(dir+_folder+"\"+ds_map_get(_tempmap,"palspritename")+".png")) {
+                        var tempsprite;
+                        tempsprite = sprite_add(dir+_folder+"\"+ds_map_get(_tempmap,"palspritename")+".png",1,0,0,0,0);
+                        ds_map_set(_tempmap,"palspriteindex",sprite_get_number(global.lemonCustomObjectPal))
+                        sprite_merge(global.lemonCustomObjectPal,tempsprite);
+                        sprite_delete(tempsprite);
+                    }
+                }
+
+                ds_map_set(global.objectlemonlist,_name,ds_map_write(_tempmap));
+                ds_map_destroy(_tempmap);
+
+                ini_close();
+            }
         }
     }
 

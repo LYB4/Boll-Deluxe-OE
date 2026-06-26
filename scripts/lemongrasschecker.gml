@@ -1,6 +1,8 @@
 var i;
 i=argument[0]
 
+if (is_string(i.obj)) exit;
+
 if (i.obj==groundblock) {
     with(i) {
         if (place_meeting(x,y-1,object_index)) {

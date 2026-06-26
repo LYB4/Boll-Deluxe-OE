@@ -6,6 +6,8 @@ applies_to=self
 */
 xoff=0
 yoff=0
+_xsc=1
+_ysc=1
 spr=0
 off2x=0
 off2y=0

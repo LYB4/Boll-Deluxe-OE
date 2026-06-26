@@ -6,6 +6,10 @@ t=funnytruefalse(i)
 
 if (string(i)="") i="[unset]"
 
+if (is_string(argument[0])) {
+    return string(lemon_get_lemoninfo("editobjdataname",argument[1],argument[2]))
+}
+
 switch (argument[0]) {
     case itembox: {
         if (type=1) {
@@ -103,9 +107,7 @@ switch (argument[0]) {
 
     case customobject:
         if type>0{
-            global.cobjectlemonreturnvalue="[NO DATA]"
-            lemon_get_lemoninfo("editobjdataname",type,argument[2])
-        return string(global.cobjectlemonreturnvalue)
+            return string(lemon_get_lemoninfo("editobjdataname",type,argument[2]))
         }else return "Custom Object: " + string(i)
     break;
 

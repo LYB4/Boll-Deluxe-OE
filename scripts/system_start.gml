@@ -119,8 +119,6 @@ global.inputwait=0
 global.mousebacklock=0
 global.scriptobj=verybignumber
 global.scripts=0
-global.levelscripts = ds_map_create();
-global.objectscripts = ds_map_create();
 global.tcalc=0
 global.halign=0
 global.valign=0
@@ -155,8 +153,6 @@ draw_set_color($ffffff)
 draw_set_font(global.omifont)
 draw_set_circle_precision(64)
 
-instance_create(0,0,lemongrab)
-
 rm=room_first do {
     room_set_view_enabled(rm,1)
     room_set_width(rm,1)
@@ -173,6 +169,7 @@ if !setting_load {
     setlang() //should prevent the game from having No Language if settings fail to load
 }
 stats("bootups",stats("bootups")+1)
+
 if (stats("red rings collected") >= 80) {
     unlockchar("retromario");
 }
@@ -185,6 +182,11 @@ global.modlist=ds_list_create();
 global.modtype=ds_list_create();
 global.extensionlist=ds_list_create();
 global.customsprites=ds_map_create();
+global.levelscripts = ds_map_create();
+global.objectscripts = ds_map_create();
+global.objectlemonlist = ds_map_create();
 
 indexCustomObjects();
 indexExtensions();
+
+instance_create(0,0,lemongrab);

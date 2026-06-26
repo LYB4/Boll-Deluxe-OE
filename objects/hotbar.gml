@@ -98,7 +98,22 @@ for (i=0;i<9+pickeddata;i+=1) {
 
     if (cur=i+1) draw_sprite_ext(spr_editsel,0,xx,yy,1,1,0,$ffffff,alpha)
 
-    if (obj[i+1]) draw_sprite_ext(spr_editpal,lemongrab.objlist[obj[i+1],25],xx,yy,1,1,0,c_black,0.5) draw_sprite_ext(spr_editpal,lemongrab.objlist[obj[i+1],25],xx-1,yy-1,1,1,0,$ffffff,alpha)
+    if (obj[i+1]) {
+        if is_real(obj[i+1,0]) {
+            var palindex, objid;
+            palindex = lemongrab.objlist[obj[i+1],25];
+            draw_sprite_ext(spr_editpal,palindex,xx,yy,1,1,0,c_black,0.5)
+            draw_sprite_ext(spr_editpal,palindex,xx-1,yy-1,1,1,0,$ffffff,alpha)
+        } else if is_string(obj[i+1,0]) {
+            if (obj[i+1,0]!="") {
+                var palindex;
+                palindex = lemongrab.objlist[obj[i+1],25];
+
+                draw_sprite_ext(global.lemonCustomObjectPal,palindex,xx,yy,1,1,0,c_black,0.5)
+                draw_sprite_ext(global.lemonCustomObjectPal,palindex,xx-1,yy-1,1,1,0,$ffffff,alpha)
+            }
+        }
+    }
     if (picked[i+1]) draw_sprite_ext(spr_editsel,1,xx,yy,1,1,0,$ffffff,alpha)
 }
 

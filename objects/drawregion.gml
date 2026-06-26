@@ -139,7 +139,7 @@ if (flooding=2) {
     }
 }
 
-with (deity) if (obj!=other.yes) {x=memx}
+with (deity) if (string(obj)!=string(other.yes.obj)) {x=memx}
 
 UPDATE_THE_DEITIES=1
 event_user(7)
@@ -168,8 +168,12 @@ var i,j;
 sels=sels+0.1
 selcol=merge_color($ff0000,$ffffff,0.5+0.5*sin(sels))
 scalecol=merge_color($60d0f0,$a0ffff,0.5*sin(sels))
-current_obj=lemongrab.objlist[hotbar.obj[hotbar.cur],0]
-if (current_obj=waterblock) {
+if is_real(lemongrab.objlist[hotbar.obj[hotbar.cur],0]) {
+    current_obj=object_get_name(lemongrab.objlist[hotbar.obj[hotbar.cur],0]);
+} else {
+    current_obj=lemongrab.objlist[hotbar.obj[hotbar.cur],0];
+}
+if (current_obj="waterblock") {
     if current_layermode!=0 {
         current_layermode=0
         myarray_i=1
@@ -182,15 +186,15 @@ if (current_obj=waterblock) {
         event_user(7)
     }
     current_layermode=0
-} else if (current_obj=groundsemi||
-            current_obj=slopel1s||
-            current_obj=slopel2s||
-            current_obj=sloper1s||
-            current_obj=sloper2s||
-            current_obj=uslopel1s||
-            current_obj=uslopel2s||
-            current_obj=usloper1s||
-            current_obj=usloper2s) {
+} else if (current_obj="groundsemi"||
+            current_obj="slopel1s"||
+            current_obj="slopel2s"||
+            current_obj="sloper1s"||
+            current_obj="sloper2s"||
+            current_obj="uslopel1s"||
+            current_obj="uslopel2s"||
+            current_obj="usloper1s"||
+            current_obj="usloper2s") {
     if current_layermode!=2 {
         myarray_i=1
         savema=selected_array[0]
@@ -203,15 +207,15 @@ if (current_obj=waterblock) {
     }
       current_layermode=2
 
-} else if (current_obj=groundback||
-            current_obj=slopel1b||
-            current_obj=slopel2b||
-            current_obj=sloper1b||
-            current_obj=sloper2b||
-            current_obj=uslopel1b||
-            current_obj=uslopel2b||
-            current_obj=usloper1b||
-            current_obj=usloper2b){
+} else if (current_obj="groundback"||
+            current_obj="slopel1b"||
+            current_obj="slopel2b"||
+            current_obj="sloper1b"||
+            current_obj="sloper2b"||
+            current_obj="uslopel1b"||
+            current_obj="uslopel2b"||
+            current_obj="usloper1b"||
+            current_obj="usloper2b"){
 
     if current_layermode!=3 {
         myarray_i=1
@@ -356,8 +360,8 @@ if (within(editcursor.x,editcursor.y,mmx+100-mmw/2,mmy+72-mmh/2,mmw,mmh)) {
                 if (i>=0) {
                     data[i]=string_replace_all(editobjmenu(obj,i,data[i]),"|","")
                     if (lemongrab.objlist[j,5+i]="align") unpack_align(id)
-                    if obj!=code
-                    with (drawregion.deity) if (obj=other.obj && selected) {
+                    if string(obj)!="code"
+                    with (drawregion.deity) if (string(obj)=string(other.obj) && selected) {
                         data[i]=other.data[i]
                         if (lemongrab.objlist[j,5+i]="align") {off2x=other.off2x off2y=other.off2y}
                     } updatedeities()
@@ -421,35 +425,19 @@ if (within(editcursor.x,editcursor.y,mmx+100-mmw/2,mmy+72-mmh/2,mmw,mmh)) {
                     unchanged=0
                     if (!clicked) editsaveundo()
                     clicked=2
-                    if (lemongrab.objlist[hotbar.obj[hotbar.cur],0]=waterblock) {
+                    if (current_layermode==0) {
                         with (instance_place(curx,cury,watercontainer)) {
                             instance_destroy()
                             if !(settings("nolemonsound")) sound("lemonerase")
                             with (other) event_user(7)
                         }
-                    } else if (lemongrab.objlist[hotbar.obj[hotbar.cur],0]=groundsemi||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel1s||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel2s||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper1s||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper2s||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel1s||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel2s||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper1s||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper2s){
+                    } else if (current_layermode==2){
                         with (instance_place(curx,cury,semicontainer)) {
                             instance_destroy()
                             if !(settings("nolemonsound")) sound("lemonerase")
                             with (other) {/*UPDATE_THE_DEITIES=1*/ event_user(7)}
                         }
-                    } else if (lemongrab.objlist[hotbar.obj[hotbar.cur],0]=groundback||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel1b||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel2b||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper1b||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper2b||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel1b||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel2b||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper1b||
-                                lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper2b){
+                    } else if (current_layermode==3){
                         with (instance_place(curx,cury,backcontainer)) {
                             instance_destroy()
                             if !(settings("nolemonsound")) sound("lemonerase")
@@ -589,7 +577,7 @@ if (drawing) {
     //drawing objects
     if (!editcursor.left) {drawing=0 /*UPDATE_THE_DEITIES=1*/ event_user(7)}
     else if ((curx!=drawx || cury!=drawy) && curx=median(0,curx,lemongrab.w[region]-1) && cury=median(0,cury,lemongrab.h[region]-1)) {
-         if (lemongrab.objlist[hotbar.obj[hotbar.cur],0]=waterblock) {
+         if (current_layermode==0) {
             //water painting
             grabj=instance_place(curx,cury,watercontainer)
             if (!grabj && lemonhappy() && drawing=1) {
@@ -612,15 +600,7 @@ if (drawing) {
                 with (backcontainer) if (selected) {selected=0 event_user(0)}*/
                 //UPDATE_THE_DEITIES=1 event_user(7)
             } else if (drawing=1) grabj=noone
-        } else if (lemongrab.objlist[hotbar.obj[hotbar.cur],0]=groundsemi||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel1s||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel2s||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper1s||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper2s||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel1s||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel2s||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper1s||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper2s){
+        } else if (current_layermode==2){
             //semi painting
             grabj=instance_place(curx,cury,semicontainer)
             if (!grabj && lemonhappy() && drawing=1) {
@@ -644,15 +624,7 @@ if (drawing) {
                 with (backcontainer) if (selected) {selected=0 event_user(0)}*/
                 /*UPDATE_THE_DEITIES=1*/ event_user(7)
             } else if (drawing=1) grabj=noone
-        } else if (lemongrab.objlist[hotbar.obj[hotbar.cur],0]=groundback||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel1b||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel2b||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper1b||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper2b||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel1b||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel2b||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper1b||
-            lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper2b){
+        } else if (current_layermode==3){
             //back-ground painting
             grabj=instance_place(curx,cury,backcontainer)
             if (!grabj && lemonhappy() && drawing=1) {
@@ -720,7 +692,7 @@ if (grabj) {
         yes=1
         with (grabj) {
             y-=99
-            if (instance_place(other.curx,other.cury,other.deity)) other.yes=0
+            if (place_meeting(other.curx,other.cury,other.deity)) other.yes=0
             y+=99
         }
         if (yes) {
@@ -928,53 +900,70 @@ if (selecting) {
                 repeat (selw) {
                     v=sely
                     repeat (selh) if (lemonhappy()) {
-                        if (lemongrab.objlist[j,0]=groundsemi||
-                        lemongrab.objlist[j,0]=slopel1s||
-                        lemongrab.objlist[j,0]=slopel2s||
-                        lemongrab.objlist[j,0]=sloper1s||
-                        lemongrab.objlist[j,0]=sloper2s||
-                        lemongrab.objlist[j,0]=uslopel1s||
-                        lemongrab.objlist[j,0]=uslopel2s||
-                        lemongrab.objlist[j,0]=usloper1s||
-                        lemongrab.objlist[j,0]=usloper2s){
-                            yes=instance_place(u,v,semicontainer)
-                            if (!yes){
-                                i=instance_create(u,v,lemongrab.semis[region])
-                                i.region=region
-                                i.obj=lemongrab.objlist[hotbar.obj[hotbar.cur],0]
-                                i.spr=lemongrab.objlist[j,1]
-                                if v==sely lemongrasschecker(i);
-                                else i.frame=1
-                            }
+                        if (!is_string(lemongrab.objlist[j,0])) {
+                            if (lemongrab.objlist[j,0]=groundsemi||
+                            lemongrab.objlist[j,0]=slopel1s||
+                            lemongrab.objlist[j,0]=slopel2s||
+                            lemongrab.objlist[j,0]=sloper1s||
+                            lemongrab.objlist[j,0]=sloper2s||
+                            lemongrab.objlist[j,0]=uslopel1s||
+                            lemongrab.objlist[j,0]=uslopel2s||
+                            lemongrab.objlist[j,0]=usloper1s||
+                            lemongrab.objlist[j,0]=usloper2s){
+                                yes=instance_place(u,v,semicontainer)
+                                if (!yes){
+                                    i=instance_create(u,v,lemongrab.semis[region])
+                                    i.region=region
+                                    i.obj=lemongrab.objlist[hotbar.obj[hotbar.cur],0]
+                                    i.spr=lemongrab.objlist[j,1]
+                                    if v==sely lemongrasschecker(i);
+                                    else i.frame=1
+                                }
 
-                        } else if (lemongrab.objlist[j,0]=groundback||
-                        lemongrab.objlist[j,0]=slopel1b||
-                        lemongrab.objlist[j,0]=slopel2b||
-                        lemongrab.objlist[j,0]=sloper1b||
-                        lemongrab.objlist[j,0]=sloper2b||
-                        lemongrab.objlist[j,0]=uslopel1b||
-                        lemongrab.objlist[j,0]=uslopel2b||
-                        lemongrab.objlist[j,0]=usloper1b||
-                        lemongrab.objlist[j,0]=usloper2b){
-                        //back-ground painting
-                            yes=instance_place(u,v,backcontainer)
-                            if (!yes){
-                                i=instance_create(u,v,lemongrab.backs[region])
-                                i.region=region
-                                i.obj=lemongrab.objlist[hotbar.obj[hotbar.cur],0]
-                                i.spr=lemongrab.objlist[j,1]
-                            }
+                            } else if (lemongrab.objlist[j,0]=groundback||
+                            lemongrab.objlist[j,0]=slopel1b||
+                            lemongrab.objlist[j,0]=slopel2b||
+                            lemongrab.objlist[j,0]=sloper1b||
+                            lemongrab.objlist[j,0]=sloper2b||
+                            lemongrab.objlist[j,0]=uslopel1b||
+                            lemongrab.objlist[j,0]=uslopel2b||
+                            lemongrab.objlist[j,0]=usloper1b||
+                            lemongrab.objlist[j,0]=usloper2b){
+                            //back-ground painting
+                                yes=instance_place(u,v,backcontainer)
+                                if (!yes){
+                                    i=instance_create(u,v,lemongrab.backs[region])
+                                    i.region=region
+                                    i.obj=lemongrab.objlist[hotbar.obj[hotbar.cur],0]
+                                    i.spr=lemongrab.objlist[j,1]
+                                }
 
-                        } else if (lemongrab.objlist[j,0]=waterblock){
-                        //water painting
-                            yes=instance_place(u,v,watercontainer)
-                            if (!yes){
-                                i=instance_create(u,v,lemongrab.waters[region])
-                                i.region=region
-                                i.obj=lemongrab.objlist[j,0]
-                                i.spr=lemongrab.objlist[j,1]
+                            } else if (lemongrab.objlist[j,0]=waterblock){
+                            //water painting
+                                yes=instance_place(u,v,watercontainer)
+                                if (!yes){
+                                    i=instance_create(u,v,lemongrab.waters[region])
+                                    i.region=region
+                                    i.obj=lemongrab.objlist[j,0]
+                                    i.spr=lemongrab.objlist[j,1]
+                                }
+                            } else {
+                                yes=instance_place(u,v,deity)
+                                if (!yes) {
+                                    i=instance_create(u,v,deity)
+                                    i.obj=lemongrab.objlist[j,0]
+                                    i.spr=lemongrab.objlist[j,1]
+                                    i.off=lemongrab.objlist[j,2]
+                                    if (i.obj == groundblock) {
+                                        if (v==sely) {
+                                            lemongrasschecker(i);
+                                        } else i.frame = 1;
+                                    }
+                                    if (hotbar.picked[hotbar.cur]) for (k=0;k<12;k+=1) i.data[k]=hotbar.data[hotbar.cur,k]
+                                    else for (k=0;k<12;k+=1) i.data[k]=lemongrab.objlist[j,k+101]
+                                    if (lemongrab.objlist[j,5]="align") unpack_align(i)
+                                }
                             }
-
                         } else {
                             yes=instance_place(u,v,deity)
                             if (!yes) {
@@ -1144,27 +1133,27 @@ if (global.ref!=-1) draw_sprite_ext(global.ref,0,global.refx,global.refy,1,1,0,$
 
 var isback,issemi;
 
-if (lemongrab.objlist[hotbar.obj[hotbar.cur],0]=groundback||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel1b||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel2b||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper1b||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper2b||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel1b||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel2b||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper1b||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper2b){
+if (current_obj="groundback"||
+    current_obj="slopel1b"||
+    current_obj="slopel2b"||
+    current_obj="sloper1b"||
+    current_obj="sloper2b"||
+    current_obj="uslopel1b"||
+    current_obj="uslopel2b"||
+    current_obj="usloper1b"||
+    current_obj="usloper2b") {
     isback=true
 }
 
-if (lemongrab.objlist[hotbar.obj[hotbar.cur],0]=groundsemi||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel1s||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=slopel2s||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper1s||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=sloper2s||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel1s||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=uslopel2s||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper1s||
-lemongrab.objlist[hotbar.obj[hotbar.cur],0]=usloper2s){
+if (current_obj="groundsemi"||
+    current_obj="slopel1s"||
+    current_obj="slopel2s"||
+    current_obj="sloper1s"||
+    current_obj="sloper2s"||
+    current_obj="uslopel1s"||
+    current_obj="uslopel2s"||
+    current_obj="usloper1s"||
+    current_obj="usloper2s"){
     issemi=true
 }
 
@@ -1243,6 +1232,8 @@ with (deity) {
 
     if (canupdate)
     updatedeities()
+
+    if (is_real(obj)) {
 
     draw_sprite_ext(spr,frame,x*16+off+off2x,y*16+off+off2y,scalex,scaley,0,c_white,draw_get_alpha())
 
@@ -1431,6 +1422,13 @@ with (deity) {
         } break
 
     }
+    } else {
+        var objid;
+        objid = string_trim(obj,"MODDEDOBJECT_")
+        myobjdir = global.workdir+"SBDX_mods\object\"+objid+"\"
+        my_code = ds_map_find_value(global.objectscripts,"lemon_display_"+objid);
+        code_execute(my_code)
+    }
     update=0
 }
 
@@ -1536,7 +1534,15 @@ if (editcursor.tool=4 && region=lemongrab.thumbregion) {
 }
 if (!grab && !grabj && !grabf && !hidecur && !positionpicker) if ((editcursor.tool=0 && !editcursor.shift) || (editcursor.tool=2 && editcanflood(lemongrab.objlist[hotbar.obj[hotbar.cur],0]))) {
     off=lemongrab.objlist[hotbar.obj[hotbar.cur],2]
-    draw_sprite_ext(lemongrab.objlist[hotbar.obj[hotbar.cur],1],0,curx*16+off,cury*16+off,1,1,0,selcol,0.5)
+    if !is_string(lemongrab.objlist[hotbar.obj[hotbar.cur],0]) {
+        draw_sprite_ext(lemongrab.objlist[hotbar.obj[hotbar.cur],1],0,curx*16+off,cury*16+off,1,1,0,selcol,0.5)
+    } else {
+        var objid;
+        objid = string_trim(lemongrab.objlist[hotbar.obj[hotbar.cur],0],"MODDEDOBJECT_")
+        myobjdir = global.workdir+"SBDX_mods\object\"+objid+"\"
+        my_code = ds_map_find_value(global.objectscripts,"lemon_preview_"+objid);
+        code_execute(my_code)
+    }
 }
 if (selecting) rect(selx*16,sely*16,selw*16,selh*16,selcol,0.5)
 if ((selecting == 2 || scaling) && !dragsound) {
@@ -1546,7 +1552,8 @@ if ((selecting == 2 || scaling) && !dragsound) {
     if !(settings("nolemonsound")) soundstop("lemonbucketdrag")
     dragsound=0
 }
-i=1 var _s;
+var _s,i;
+i=1
 repeat (selected_array[0]) { _s = selected_array[i]
     rect((_s.x * 16) - 2, (_s.y * 16) - 2, ((_s.scalex * 16) * _s._xsc) + 4, ((_s.scaley * 16) * _s._ysc) + 4, selcol, 0.5)
     i+=1

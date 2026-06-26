@@ -1,8 +1,8 @@
 caption=
 width=800
 height=700
-snap_x=2
-snap_y=2
+snap_x=1
+snap_y=1
 isometric=0
 roomspeed=60
 roompersistent=0

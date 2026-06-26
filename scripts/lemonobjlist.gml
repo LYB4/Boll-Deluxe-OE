@@ -1156,10 +1156,53 @@ listobj(pig          ,0,spr_pig     ,243,pig)
     listargs("align")
     listdata("0,0"  )
 
+//LOAD MODDED OBJECTS
+var size, key, _mapid, lemonmap;
+size = ds_map_size(global.objectlemonlist);
+key = ds_map_find_first(global.objectlemonlist);
+i=0;
+repeat(size) {
+    _mapid = ds_map_find_value(global.objectlemonlist, key);
+    lemonmap = ds_map_create();
+    ds_map_read(lemonmap,_mapid);
+
+    my_code=ds_map_find_value(global.objectscripts,"lemon_data_"+key);
+
+    var moddata,j;
+    j=0;
+    repeat(12) {
+        moddata[j]="";
+        j+=1;
+    }
+    if (my_code!=0) {
+        j=0;
+        repeat(12) {
+            global.cobjectreturn = "";
+            code_execute(my_code,j);
+            moddata[j] = global.cobjectreturn;
+            j+=1;
+        }
+    }
+
+    listobj("MODDEDOBJECT_"+key,0,spr_16,ds_map_find_value(lemonmap,"palspriteindex"));
+    listdoc(ds_map_find_value(lemonmap,"displayname"),ds_map_find_value(lemonmap,"description"));
+    listargs("data_0","data_1","data_2","data_3","data_4","data_5","data_6","data_7","data_8","data_9","data_10","data_11")
+    listdata(moddata[0] ,moddata[1]      ,moddata[2]      ,moddata[3]      ,moddata[4]      ,moddata[5]      ,moddata[6]      ,moddata[7]      ,moddata[8]      ,moddata[9]      ,moddata[10]       ,moddata[11]       )
+
+    ds_map_destroy(lemonmap);
+    key = ds_map_find_next(global.objectlemonlist, key);
+    i+=1;
+}
+////////
+
 n=ds_map_create()
 k=ds_map_find_first(m)
 repeat (ds_map_size(m)) {
-    ds_map_add(n,object_get_name(k),k+1)
+    if is_real(k) {
+        ds_map_add(n,object_get_name(k),k+1)
+    } else {
+        ds_map_add(n,k,k)
+    }
     k=ds_map_find_next(m,k)
 }
 

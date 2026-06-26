@@ -560,6 +560,7 @@
 		|lemonobjname
 		|lemonobjdesc
 		|editname2obj
+		|editnameconvert
 		|listobj
 		|listargs
 		|listdata
@@ -642,4 +643,4 @@
 	|delete_custom_sprite
 	|get_custom_sprite
 	|custom_sprite_exists
-|lemon_get_lemoninfo
+	|lemon_get_lemoninfo

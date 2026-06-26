@@ -171,58 +171,74 @@ if !sprite_exists(global.custom_sprite_collectibles) ||global.custom_sprite_coll
 
 #define lemon_display
 
-if !sprite_exists(global.custom_sprite_collectibles) ||global.custom_sprite_collectibles==0{
-	global.custom_sprite_collectibles=sprite_add(globalmanager.moddir+"object\"+data[0]+"\collectibles.png",0,1,0,0,0)
+if !(custom_sprite_exists("custom_sprite_collectibles")) {
+    sheet=add_custom_sprite(myobjdir+"collectibles.png","custom_sprite_collectibles",1,1,0,0);
+} else {
+	sheet=get_custom_sprite("custom_sprite_collectibles")
 }
-sheet=global.custom_sprite_collectibles
-
 
 realtype=unreal(data[1],0)
 
 off_y=realtype	
 
-draw_sprite_part_ext(sheet,0,190,7+28*off_y,16,16,x*16+unreal(data_2,0),y*16+unreal(data_3,0),1,1,c_white,1)
+draw_sprite_part_ext(sheet,0,190,7+28*off_y,16,16,(x*16)+unreal(data[2],0),(y*16)+unreal(data[2],0),1,1,c_white,1)
+
+#define lemon_preview
+if !(custom_sprite_exists("custom_sprite_collectibles")) {
+    sheet=add_custom_sprite(myobjdir+"collectibles.png","custom_sprite_collectibles",1,1,0,0);
+} else {
+	sheet=get_custom_sprite("custom_sprite_collectibles")
+}
+
+draw_sprite_part_ext(sheet,0,190,7+28*off_y,16,16,curx*16+off,cury*16+off,1,1,selcol,0.5);
 
 #define editobjmenu
+thedefault=argument1
+type=argument0
 
-if global.cobjectlemontype>3 {global.cobjectlemonreturnvalue=  "----"}
-		
-	else if (global.cobjectlemontype=2) {
-        global.cobjectlemonreturnvalue=  get_string("Object's X Offset",global.cobjectlemondefault)
-	
-	
-	}
-	else if (global.cobjectlemontype=3) {
-        global.cobjectlemonreturnvalue=  get_string("Object's Y Offset",global.cobjectlemondefault)
-	
-	
-	}
-	else if (global.cobjectlemontype=1) {
-        i=show_contextmenu("Collectible Type:|-|Purple Coin|Rupee|Triforce Shard|Note|Letter B|Letter O|Letter W|Letter L",0)
-        if (!i) global.cobjectlemonreturnvalue=  global.cobjectlemondefault
-        else global.cobjectlemonreturnvalue=  string(i-1)
-	
-	
-	}
+if (type==2) {
+	global.cobjectreturn = get_string("Object's X Offset",thedefault)
+	exit;
+}
+else if (type==3) {
+    global.cobjectreturn = get_string("Object's Y Offset",thedefault)
+    exit;
+}
+else if (type==1) {
+    i=show_contextmenu("Collectible Type:|-|Purple Coin|Rupee|Triforce Shard|Note|Letter B|Letter O|Letter W|Letter L",0)
+    if (!i) global.cobjectreturn = thedefault
+    else global.cobjectreturn = string(i-1)
+    exit;
+}
+
+global.cobjectreturn = "----"
 
 #define editobjdataname
+i=string(argument1)
+type=argument0
 
-i=global.cobjectlemondefault
-type=global.cobjectlemontype
-if global.cobjectlemontype>3 {global.cobjectlemonreturnvalue= "[NO DATA]"}
-else if type==2{
-	global.cobjectlemonreturnvalue="Offset X: " + string(i)
+if type==2{
+	global.cobjectreturn = "Offset X: " + i
+	exit;
 }else if type==3{
-	global.cobjectlemonreturnvalue="Offset Y: " + string(i)
+	global.cobjectreturn = "Offset Y: " + i
+	exit;
 }else if type==1{
-	if i=="0" global.cobjectlemonreturnvalue= "Purple Coin";
-	if i=="1" global.cobjectlemonreturnvalue=  "Rupee";
-	if i=="2" global.cobjectlemonreturnvalue=  "Triforce Shard";
-	if i=="3" global.cobjectlemonreturnvalue=  "Note";
-	if i=="4" global.cobjectlemonreturnvalue=  "Letter B";
-	if i=="5" global.cobjectlemonreturnvalue=  "Letter O";
-	if i=="6" global.cobjectlemonreturnvalue=  "Letter W";
-	if i=="7" global.cobjectlemonreturnvalue=  "Letter L";
-	else global.cobjectlemonreturnvalue= "Purple Coin";
+	if i=="1" global.cobjectreturn = "Rupee";
+	if i=="2" global.cobjectreturn = "Triforce Shard";
+	if i=="3" global.cobjectreturn = "Note";
+	if i=="4" global.cobjectreturn = "Letter B";
+	if i=="5" global.cobjectreturn = "Letter O";
+	if i=="6" global.cobjectreturn = "Letter W";
+	if i=="7" global.cobjectreturn = "Letter L";
+	else global.cobjectreturn = "Purple Coin";
+	exit;
+}
 
+#define lemon_data
+
+switch(argument0) {
+	case 1: global.cobjectreturn = "0" break;
+	case 2: global.cobjectreturn = 0 break;
+	case 3: global.cobjectreturn = 0 break;
 }

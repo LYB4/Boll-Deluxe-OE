@@ -109,24 +109,25 @@ for (r=0;r<8;r+=1) {
     //so first we need to count them
     yes=0
     for (j=1;j<=l;j+=1) {
-        obj=lemongrab.objlist[j,0]
-        with (deity) if (self.obj=obj) {yes+=1 break}
-        with (semi) if (self.obj=obj) {yes+=1 break}
-        with (back) if (self.obj=obj) {yes+=1 break}
+        obj=string(lemongrab.objlist[j,0])
+        with (deity) if (string(self.obj)=obj) {yes+=1 break}
+        with (semi) if (string(self.obj)=obj) {yes+=1 break}
+        with (back) if (string(self.obj)=obj) {yes+=1 break}
     }
     with (water) {yes+=1 break}
 
     writebyte(yes)
 
     for (j=1;j<=l;j+=1) {
-        obj=lemongrab.objlist[j,0]
+        obj=string(lemongrab.objlist[j,0])
+        realobj = lemongrab.objlist[j,0]
         ent=lemongrab.objlist[j,21]
 
-        if (obj=waterblock) {
+        if (obj="waterblock") {
             //this is the same as the block below but watered down hahA
             yes=0 with (water) yes+=1
             if (yes) {
-                writestring(object_get_name(obj))
+                writestring(object_get_name(realobj))
                 writebyte(0)
                 writeuint(yes)
 
@@ -138,21 +139,22 @@ for (r=0;r<8;r+=1) {
                     external_call(global._BufY,scaley,0) //writeushort
                 }
             }
-        } else if obj=groundsemi||obj=slopel1s||obj=sloper2s||obj=sloper1s||obj=slopel2s||obj=uslopel1s||obj=uslopel2s||obj=usloper1s||obj=usloper2s{
-            yes=0 with (semi) if (self.obj=obj) yes+=1 with (deity) if (self.obj=obj) yes+=1 //hopefully stop crashes due to wrong layer
+        } else if obj="groundsemi"||obj="slopel1s"||obj="sloper2s"||obj="sloper1s"||obj="slopel2s"||obj="uslopel1s"||obj="uslopel2s"||obj="usloper1s"||obj="usloper2s"{
+            yes=0 with (semi) if (string(self.obj)=obj) yes+=1 with (deity) if (string(self.obj)=obj) yes+=1 //hopefully stop crashes due to wrong layer
             if (yes) {
-                writestring(object_get_name(obj))
+                writestring(object_get_name(realobj))
                 writebyte(0)
                 writeuint(yes)
 
-                with (semi) if (self.obj=obj) {
+                with (semi) if (string(self.obj)=obj) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
                     external_call(global._BufY,b&$ffff,0) //writeushort
                     external_call(global._BufY,scalex,0) //writeushort
                     external_call(global._BufY,scaley,0) //writeushort
                 }
-                with (deity) if (self.obj=obj) {
+
+                with (deity) if (string(self.obj)=obj) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
                     external_call(global._BufY,b&$ffff,0) //writeushort
@@ -160,21 +162,14 @@ for (r=0;r<8;r+=1) {
                     external_call(global._BufY,scaley,0) //writeushort
                 }
             }
-        } else if obj=groundback||obj=slopel1b||obj=sloper2b||obj=sloper1b||obj=slopel2b||obj=uslopel1b||obj=usloper2b||obj=usloper1b||obj=uslopel2b{
-            yes=0 with (back) if (self.obj=obj) yes+=1 with (deity) if (self.obj=obj) yes+=1
+        } else if obj="groundback"||obj="slopel1b"||obj="sloper2b"||obj="sloper1b"||obj="slopel2b"||obj="uslopel1b"||obj="usloper2b"||obj="usloper1b"||obj="uslopel2b"{
+            yes=0 with (back) if (string(self.obj)=obj) yes+=1 with (deity) if (string(self.obj)=obj) yes+=1
             if (yes) {
-                writestring(object_get_name(obj))
+                writestring(object_get_name(realobj))
                 writebyte(0)
                 writeuint(yes)
 
-                with (back) if (self.obj=obj) {
-                    b=(x << 12) + y
-                    external_call(global._BufA,b>>16,0) //writebyte
-                    external_call(global._BufY,b&$ffff,0) //writeushort
-                    external_call(global._BufY,scalex,0) //writeushort
-                    external_call(global._BufY,scaley,0) //writeushort
-                }
-                with (deity) if (self.obj=obj) {
+                with (back) if (string(self.obj)=obj) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
                     external_call(global._BufY,b&$ffff,0) //writeushort
@@ -183,14 +178,18 @@ for (r=0;r<8;r+=1) {
                 }
             }
         } else {
-            yes=0 with (deity) if (self.obj=obj) yes+=1
+            yes=0 with (deity) if (string(self.obj)=obj) yes+=1
 
             if (yes) {//write an entity list
-                writestring(object_get_name(obj))
+                if !is_string(realobj) {
+                    writestring(object_get_name(realobj))
+                } else {
+                    writestring(realobj)
+                }
                 writebyte(ent) // is entity? ie has data
                 writeuint(yes)
 
-                with (deity) if (self.obj=obj) {//write x, y, then all data fields
+                with (deity) if (string(self.obj)=obj) {//write x, y, then all data fields
                     dataid=j
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte

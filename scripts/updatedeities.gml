@@ -10,6 +10,24 @@
 image_xscale=1
 image_yscale=1
 
+if (is_string(obj)) {
+    if (new) {
+        x-=verybignumber
+        if (place_meeting(xstart,y,drawregion.deity)) instance_destroy()
+        x+=verybignumber
+        new=0
+    }
+
+    if (replace_below) {
+        with (object_index) {
+            if (place_meeting(x,y,other.id) && id != other.id)
+                instance_destroy()
+        }
+        replace_below = 0;
+    }
+    exit;
+}
+
 switch (obj) {
 
     case slopel1: case sloper1: case usloper2: case uslopel2:

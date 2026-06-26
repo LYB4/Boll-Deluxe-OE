@@ -164,8 +164,9 @@ repeat (8) {
     repeat (readbyte()) {
         test=0
         str=readstring()
-        obj=editname2obj(str)
-        if (obj=-1) {
+        obj=editnameconvert(str)
+        realobj=editname2obj(str);
+        if (string(realobj)=="-1") {
             //this object is unknown, so let's skip loading it
             ent=readbyte()
             repeat (readuint()) {
@@ -179,10 +180,10 @@ repeat (8) {
             converted=1
             show_debug_message("lemon: can't find object called "+qt+str+qt)
         }
-        else if obj==dotter obj=mushmini
-        else if obj==undotter obj=mushroom
+        else if obj=="dotter" obj="mushmini"
+        else if obj=="undotter" obj="mushroom"
         else {
-            i=1 repeat l {if (obj=lemongrab.objlist[i,0]) {spr=lemongrab.objlist[i,1] off=lemongrab.objlist[i,2] did=i break} i+=1}
+            i=1 repeat l {if (string(realobj)=string(lemongrab.objlist[i,0])) {spr=lemongrab.objlist[i,1] off=lemongrab.objlist[i,2] did=i break} i+=1}
             ent=readbyte()
             repeat (readuint()) {
                 //read one entity
@@ -197,7 +198,7 @@ repeat (8) {
                     scaley = 1;
                 }
 
-                if (obj==waterblock) {
+                if (obj=="waterblock") {
                     w=1 h=1
                     if (ent) {
                         w=unreal(readstring(),1)
@@ -210,21 +211,21 @@ repeat (8) {
                         o.scalex=scalex
                         o.scaley=scaley
                     }
-                } else if (obj==groundsemi||obj==slopel1s||obj==slopel2s||obj==sloper1s||obj==sloper2s||obj==uslopel1s||obj==uslopel2s||obj==usloper1s||obj==usloper2s) {
+                } else if (obj=="groundsemi"||obj=="slopel1s"||obj=="slopel2s"||obj=="sloper1s"||obj=="sloper2s"||obj=="uslopel1s"||obj=="uslopel2s"||obj=="usloper1s"||obj=="usloper2s") {
                      i=instance_create(b>>12,b&$fff,semi)
-                     i.obj=obj
+                     i.obj=realobj
                      i.spr=spr
                      i.scalex=scalex
                      i.scaley=scaley
-                } else if (obj==groundback||obj==slopel1b||obj==slopel2b||obj==sloper1b||obj==sloper2b||obj==uslopel1b||obj==uslopel2b||obj==usloper1b||obj==usloper2b) {
+                } else if (obj=="groundback"||obj=="slopel1b"||obj=="slopel2b"||obj=="sloper1b"||obj=="sloper2b"||obj=="uslopel1b"||obj=="uslopel2b"||obj=="usloper1b"||obj=="usloper2b") {
                      i=instance_create(b>>12,b&$fff,back)
-                     i.obj=obj
+                     i.obj=realobj
                      i.spr=spr
                      i.scalex=scalex
                      i.scaley=scaley
                 }else {
                     i=instance_create(b>>12,b&$fff,deity)
-                    i.obj=obj
+                    i.obj=realobj
                     i.spr=spr
                     i.scalex=scalex
                     i.scaley=scaley
@@ -232,10 +233,10 @@ repeat (8) {
                     i.dataid=did
                     if (ent) {
                         k=0 repeat (8) {i.data[k]=readstring() k+=1}
-                        if (lemongrab.objlist[did,5]="align") {
-                            if (obj=fbarblock && (!string_starts_with(lv,"2.1.")))
-                            || ((obj=itembox||obj=phaser||obj=brick||obj=monitor) && !string_starts_with(lv,"2.") && lv!="2.0" && lv!="2.0.5")
-                            || ((obj=warpbox||obj=door) && lv!="2.1.5" && lv!="2.1.6" && lv!="2.1.6s") { //fix objects getting align much later
+                        if (string(lemongrab.objlist[did,5])="align") {
+                            if (obj="fbarblock" && (!string_starts_with(lv,"2.1.")))
+                            || ((obj="itembox"||obj="phaser"||obj="brick"||obj="monitor") && !string_starts_with(lv,"2.") && lv!="2.0" && lv!="2.0.5")
+                            || ((obj="warpbox"||obj="door") && lv!="2.1.5" && lv!="2.1.6" && lv!="2.1.6s") { //fix objects getting align much later
                                 var al;
                                 al=7 repeat (8) {i.data[al+1]=i.data[al] al-=1}
                                 i.data[0]="0"
@@ -250,31 +251,31 @@ repeat (8) {
                         }
 
                         if !string_starts_with(lv,"2.1.")  with(i) {
-                            if obj==anchor {
+                            if obj=="anchor" {
                                 data[1]="0,0"
                                 data[2]="0"
                             }
                         }
                         if lv=="2.1" with(i) {
-                            if obj==terrainspring {
+                            if obj=="terrainspring" {
                                 data[1]="0"
                             }
                         }
                         if lv!="2.1.5" && lv!="2.1.6" && lv!="2.1.6s" {
-                            if (obj == token) {
+                            if (obj == "token") {
                                 i.data[0]="0,0"
                                 i.data[1]="1"
                             }
-                            if (obj==door) {
+                            if (obj=="door") {
                                 i.data[6]="key"
                             }
-                            if (obj==warpbox) {
+                            if (obj=="warpbox") {
                                 i.data[6]="key"
                             }
-                            if (obj==cardreader) {
+                            if (obj=="cardreader") {
                                 i.data[1]="card"
                             }
-                            if (obj==itemlaunch) {
+                            if (obj=="itemlaunch") {
                                 if (i.data[1]="tap") i.obj=crystaltap
                                 if (i.data[1]="key") i.obj=keyitem
                                 if (i.data[1]="undotter") i.data[1]="mushroom"
@@ -282,12 +283,12 @@ repeat (8) {
                             }
                         }
                         if lv!="2.1.6s" {
-                            if (obj == pipeblock || obj == downpipe) { //fix alignment
+                            if (obj == "pipeblock" || obj == "downpipe") { //fix alignment
                                 i.x -= 1;
                                 i.xstart = i.x;
                             }
                         }
-                        if (obj==mark) {
+                        if (obj=="mark") {
                             //Items
                             if (i.data[0]="undotter" || i.data[0]="mushroom") {i.obj=mushroom i.data[0]="0,0"}
                             if (i.data[0]="dotter")   {i.obj=mushmini i.data[0]="0,0" }
@@ -300,19 +301,19 @@ repeat (8) {
                             if (i.data[0]="b") {with (i) instance_destroy()} //broken Claw object that isn't used anymore
                         }
                         
-                        if (obj == tyler || obj == decortyler
-                         || obj == objectstyler || obj == terraintyler) {
+                        if (obj == "tyler" || obj == "decortyler"
+                         || obj == "objectstyler" || obj == "terraintyler") {
                             if (getbiomeid(data[7]) != -1)
                                 global.tylerbiomes[getbiomeid(data[7])] = 1
                         }  
-                        if obj==anchor {
+                        if obj=="anchor" {
                             if unreal(data[2],0) global.tylerbiomes[unreal(data[2],0)-1] = 1
                         }
                         
                     }
-                    if i.obj != i.dataid {
+                    if string(i.obj) != string(i.dataid) {
                         var z;
-                        z=1 repeat l {if (i.obj=lemongrab.objlist[z,0]) {i.spr=lemongrab.objlist[z,1] i.off=lemongrab.objlist[z,2] i.dataid=z break} z+=1}
+                        z=1 repeat l {if (string(i.obj)=string(lemongrab.objlist[z,0])) {i.spr=lemongrab.objlist[z,1] i.off=lemongrab.objlist[z,2] i.dataid=z break} z+=1}
                     }
                 }
             }

@@ -65,28 +65,43 @@ repeat (8) {
     var m, n;
 
     with (lg.gods[i]) {
-        if obj {
+        var cancreate;
+        cancreate = true;
+        if (is_real(obj)) {
+            if !(obj) cancreate = false;
+        }
+
+        if (cancreate) {
             updatedeities(1)
 
             m = 0; n = 0;
             scalex = max(1, scalex); scaley = max(1, scaley)
-            var _obj; _obj = obj;
+            var _obj,iscustomobject;
+            _obj = obj;
+            iscustomobject=false;
 
-            switch (obj) {
-                case groundblock: _obj = ground;
-                case ground:
-                case phaser:
-                case barrier:
+            switch (string(obj)) {
+                case "groundblock": _obj = ground;
+                case "ground":
+                case "phaser":
+                case "barrier":
                     o=instance_create(offx+x*16+off+off2x,y*16+off+off2y+16,_obj)
                     o.image_xscale = scalex;
                     o.image_yscale = scaley;
-                if (obj != groundblock) break;
+                if (string(obj) != "groundblock") break;
 
                 default:
                     repeat (scalex) {
                         repeat (scaley) {
-                            o=instance_create(offx+x*16+off+off2x+(m*16*_xsc),y*16+off+off2y+(n*16*_ysc)+16,obj)
-                            if (obj == groundblock) o.scaled = 1;
+                            if is_string(_obj) {
+                                _obj = customobject
+                                iscustomobject = true;
+                            }
+                            o=instance_create(offx+x*16+off+off2x+(m*16*_xsc),y*16+off+off2y+(n*16*_ysc)+16,_obj)
+                            if (iscustomobject) {
+                                o.mytype = string_trim(obj,"MODDEDOBJECT_")
+                            }
+                            if (string(_obj) == "groundblock") o.scaled = 1;
                             count=lg.objlist[dataid,3]
                             if (count) {j=0 repeat (count) {variable_instance_set(o,lg.objlist[dataid,5+j],data[j]) j+=1}}
                             n += 1;

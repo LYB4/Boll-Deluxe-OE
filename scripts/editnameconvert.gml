@@ -17,7 +17,7 @@ var notfound;
 
 notfound = false;
 
-if !string_starts_with(str,"MODDEDOBJECT_") {
+if is_real(str) {
     if (ds_map_find_value(global.lemonobjs,str)-1 == -1) notfound = true;
 } else {
     if !is_string(ds_map_find_value(global.lemonobjs,str)) notfound = true;
@@ -55,8 +55,4 @@ if (notfound) {
 
 }
 
-if !string_starts_with(str,"MODDEDOBJECT_") {
-    return ds_map_find_value(global.lemonobjs,str)-1
-} else {
-    return ds_map_find_value(global.lemonobjs,str)
-}
+return str
