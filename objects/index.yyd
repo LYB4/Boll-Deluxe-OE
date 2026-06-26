@@ -1219,3 +1219,7 @@ konblock
 koffblock
 optaft
 customobject
+customobjectenemy
+customobjectcollider
+customobjecthittable
+customobjectmoving

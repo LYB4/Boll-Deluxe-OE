@@ -180,7 +180,7 @@ if (current_obj="waterblock") {
         savema=selected_array[0]
         repeat (savema) {
             if moveback {selected_array[myarray_i-1]=selected_array[myarray_i]}
-            if (selected_array[myarray_i]==other.id ) {selected=0 event_user(0) selected_array[0]-=1 moveback=1 updatedeities()}
+            if (selected_array[myarray_i]==other.id ) {selected=0 event_user(0) selected_array[0]-=1 moveback=1}
             myarray_i+=1
         }moveback=0
         event_user(7)
@@ -200,7 +200,7 @@ if (current_obj="waterblock") {
         savema=selected_array[0]
         repeat (savema) {
             if moveback {selected_array[myarray_i-1]=selected_array[myarray_i]}
-            if (selected_array[myarray_i]==other.id ) {selected=0 event_user(0) selected_array[0]-=1 moveback=1 updatedeities()}
+            if (selected_array[myarray_i]==other.id ) {selected=0 event_user(0) selected_array[0]-=1 moveback=1}
             myarray_i+=1
         }moveback=0
         event_user(7)
@@ -222,7 +222,7 @@ if (current_obj="waterblock") {
         savema=selected_array[0]
         repeat (savema) {
             if moveback {selected_array[myarray_i-1]=selected_array[myarray_i]}
-            if (selected_array[myarray_i]==other.id ) {selected=0 event_user(0) selected_array[0]-=1 moveback=1 updatedeities()}
+            if (selected_array[myarray_i]==other.id ) {selected=0 event_user(0) selected_array[0]-=1 moveback=1}
             myarray_i+=1
         }moveback=0
         event_user(7)
@@ -235,7 +235,7 @@ if (current_obj="waterblock") {
         savema=selected_array[0]
         repeat (savema) {
             if moveback {selected_array[myarray_i-1]=selected_array[myarray_i]}
-            if (selected_array[myarray_i]==other.id ) {selected=0 event_user(0) selected_array[0]-=1 moveback=1 updatedeities()}
+            if (selected_array[myarray_i]==other.id ) {selected=0 event_user(0) selected_array[0]-=1 moveback=1}
             myarray_i+=1
         }moveback=0
         event_user(7)
@@ -364,7 +364,8 @@ if (within(editcursor.x,editcursor.y,mmx+100-mmw/2,mmy+72-mmh/2,mmw,mmh)) {
                     with (drawregion.deity) if (string(obj)=string(other.obj) && selected) {
                         data[i]=other.data[i]
                         if (lemongrab.objlist[j,5+i]="align") {off2x=other.off2x off2y=other.off2y}
-                    } updatedeities()
+                    }
+                    updatedeities()
                     with (other) {/*UPDATE_THE_DEITIES=1*/ event_user(7)}
                 }
             }
@@ -813,7 +814,7 @@ if (selecting) {
                     }
                     with (drawregion) other.selected=(splace_meeting(selx,sely,other.id,selw,selh))
                     if (selected) {
-                        other.selected_array[0]+=1 other.selected_array[other.selected_array[0]]=id updatedeities()
+                        other.selected_array[0]+=1 other.selected_array[other.selected_array[0]]=id
                     }
                 }
                 if current_layermode=1  with (deity) {
@@ -828,7 +829,7 @@ if (selecting) {
                     }
                     with (drawregion) other.selected=(splace_meeting(selx,sely,other.id,selw,selh))
                     if (selected) {
-                        other.selected_array[0]+=1 other.selected_array[other.selected_array[0]]=id updatedeities()
+                        other.selected_array[0]+=1 other.selected_array[other.selected_array[0]]=id
                     } else{
 
 
@@ -845,7 +846,7 @@ if (selecting) {
                     }
                     with (drawregion) other.selected=(splace_meeting(selx,sely,other.id,selw,selh))
                     if (selected) {
-                        other.selected_array[0]+=1 other.selected_array[other.selected_array[0]]=id updatedeities()
+                        other.selected_array[0]+=1 other.selected_array[other.selected_array[0]]=id
                     }
                 }
                 if current_layermode=3 with (backcontainer) {
@@ -859,7 +860,7 @@ if (selecting) {
                     }
                     with (drawregion) other.selected=(splace_meeting(selx,sely,other.id,selw,selh))
                     if (selected) {
-                        other.selected_array[0]+=1 other.selected_array[other.selected_array[0]]=id updatedeities()
+                        other.selected_array[0]+=1 other.selected_array[other.selected_array[0]]=id
                     }
                 }
                 /*UPDATE_THE_DEITIES=1*/

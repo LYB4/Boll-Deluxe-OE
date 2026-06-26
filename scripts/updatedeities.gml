@@ -11,6 +11,12 @@ image_xscale=1
 image_yscale=1
 
 if (is_string(obj)) {
+    var objid;
+    objid = string_trim(obj,"MODDEDOBJECT_")
+    myobjdir = global.workdir+"SBDX_mods\object\"+objid+"\"
+    my_code = ds_map_find_value(global.objectscripts,"updatedeities_"+objid);
+    code_execute(my_code)
+
     if (new) {
         x-=verybignumber
         if (place_meeting(xstart,y,drawregion.deity)) instance_destroy()

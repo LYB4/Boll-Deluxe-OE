@@ -4,8 +4,12 @@ lib_id=1
 action_id=603
 applies_to=self
 */
+event_inherited();
+
 mytype = "";
 stepevent = 0;
+stependevent = 0;
+stepbeginevent = 0;
 createevent = 0;
 drawevent = 0;
 drawguievent = 0;
@@ -66,12 +70,11 @@ action_id=603
 applies_to=self
 */
 stepevent=ds_map_find_value(global.objectscripts,"step_"+mytype)
-stepbeginevent=ds_map_find_value(global.objectscripts,"step_begin_"+mytype)
-stependevent=ds_map_find_value(global.objectscripts,"step_end_"+mytype)
+stependevent=ds_map_find_value(global.objectscripts,"step_begin_"+mytype)
+stepbeginevent=ds_map_find_value(global.objectscripts,"step_end_"+mytype)
 createevent=ds_map_find_value(global.objectscripts,"create_"+mytype)
 drawevent=ds_map_find_value(global.objectscripts,"draw_"+mytype)
 drawguievent=ds_map_find_value(global.objectscripts,"draw_gui_"+mytype)
-triggerevent=ds_map_find_value(global.objectscripts,"trigger_"+mytype)
 cleanupevent=ds_map_find_value(global.objectscripts,"cleanup_"+mytype)
 
 myobjdir = global.workdir+"SBDX_mods\object\"+mytype+"\"
@@ -87,6 +90,6 @@ lib_id=1
 action_id=603
 applies_to=self
 */
-if (drawevent != 0) {
+if (drawevent != 0) && (active) {
     code_execute(drawevent)
 }

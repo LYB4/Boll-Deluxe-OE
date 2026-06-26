@@ -4,7 +4,7 @@ dir = global.workdir+"SBDX_mods\object\"
 
 global.lemonCustomObjectPal=sprite_duplicate(spr_editpalblank)
 
-cleanupScripts();
+cleanupObjects();
 
 var _folder;
 _folder = file_find_first(dir+"*",fa_directory)
@@ -52,6 +52,8 @@ while(_folder != "") {
                     case "create":
                     case "data":
                     case "step":
+                    case "step_end":
+                    case "step_begin":
                     case "draw":
                     case "draw_gui":
                     case "cleanup":
@@ -62,7 +64,7 @@ while(_folder != "") {
                     case "updatedeities":
                     case "editobjmenu":
                     case "editobjdataname":
-                    case "trigger":
+                    case "hitblock":
                         _codestr = loopThrough(_key, _filepath)
                         if (_codestr != "") {
                             _compiled = code_compile(_codestr)
@@ -72,6 +74,10 @@ while(_folder != "") {
                             }
                             ds_map_set(global.objectscripts,_key+"_"+_name,_compiled)
                         }
+                    break;
+                    case "object_type":
+                        str = string_trim(loopThrough(_key, _filepath),chr(13),chr(10));
+                        ds_map_set(global.customobjecttypes,_name,str)
                     break;
                     default : show_message("Invalid define ("+_key+") in "+_file+"!") break;
                 }
@@ -113,3 +119,10 @@ while(_folder != "") {
     _folder = file_find_next();
 }
 _folder = file_find_close();
+
+with(lemongrab) {
+    ds_map_destroy(n);
+    ds_map_destroy(m);
+    ds_map_destroy(d);
+    lemonobjlist();
+}

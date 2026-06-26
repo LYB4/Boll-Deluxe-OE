@@ -689,7 +689,12 @@
 			|event_auto
 			|event_input
 			|event_enemy
-		|customobject
+		+modded objects
+			|customobject
+			|customobjectenemy
+			|customobjectcollider
+			|customobjecthittable
+			|customobjectmoving
 		|staticdummy
 		|objectdummy
 		|enemydummy

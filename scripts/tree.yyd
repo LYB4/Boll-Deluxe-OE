@@ -644,3 +644,4 @@
 	|get_custom_sprite
 	|custom_sprite_exists
 	|lemon_get_lemoninfo
+	|create_custom_object

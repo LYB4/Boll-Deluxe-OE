@@ -6,6 +6,8 @@ applies_to=self
 */
 mytype = "";
 stepevent = 0;
+stependevent = 0;
+stepbeginevent = 0;
 createevent = 0;
 drawevent = 0;
 drawguievent = 0;
@@ -65,14 +67,42 @@ lib_id=1
 action_id=603
 applies_to=self
 */
+if (global.coll=noone) owner=instance_nearest(x,y,player)
+else owner=global.coll
+
+if !(insted) {
+    if (owner.fly) owner.vsp=0
+    else owner.vsp=1.5
+}
+
+if !(wait) {
+    wait=13
+    tpos=1
+    event_user(4)
+}
+#define Other_14
+/*"/*'/**//* YYD ACTION
+lib_id=1
+action_id=603
+applies_to=self
+*/
+if (hitblockevent != 0) {
+    code_execute(hitblockevent)
+}
+#define Other_15
+/*"/*'/**//* YYD ACTION
+lib_id=1
+action_id=603
+applies_to=self
+*/
 stepevent=ds_map_find_value(global.objectscripts,"step_"+mytype)
-stepbeginevent=ds_map_find_value(global.objectscripts,"step_begin_"+mytype)
-stependevent=ds_map_find_value(global.objectscripts,"step_end_"+mytype)
+stependevent=ds_map_find_value(global.objectscripts,"step_begin_"+mytype)
+stepbeginevent=ds_map_find_value(global.objectscripts,"step_end_"+mytype)
 createevent=ds_map_find_value(global.objectscripts,"create_"+mytype)
 drawevent=ds_map_find_value(global.objectscripts,"draw_"+mytype)
 drawguievent=ds_map_find_value(global.objectscripts,"draw_gui_"+mytype)
-triggerevent=ds_map_find_value(global.objectscripts,"trigger_"+mytype)
 cleanupevent=ds_map_find_value(global.objectscripts,"cleanup_"+mytype)
+hitblockevent=ds_map_find_value(global.objectscripts,"hitblock_"+mytype)
 
 myobjdir = global.workdir+"SBDX_mods\object\"+mytype+"\"
 

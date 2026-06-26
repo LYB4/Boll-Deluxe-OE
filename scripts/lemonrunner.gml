@@ -93,8 +93,24 @@ repeat (8) {
                 default:
                     repeat (scalex) {
                         repeat (scaley) {
-                            if is_string(_obj) {
-                                _obj = customobject
+                            if is_string(obj) {
+                                var objtype;
+                                objtype = string_trim(obj,"MODDEDOBJECT_");
+                                switch(ds_map_find_value(global.customobjecttypes,objtype)) {
+                                    case "enemy":
+                                    _obj = customobjectenemy
+                                    break;
+                                    case "collider":
+                                    _obj = customobjectcollider
+                                    break;
+                                    case "hittable":
+                                    _obj = customobjecthittable
+                                    break;
+                                    case "moving":
+                                    _obj = customobjectmoving
+                                    break;
+                                    default: _obj = customobject break;
+                                }
                                 iscustomobject = true;
                             }
                             o=instance_create(offx+x*16+off+off2x+(m*16*_xsc),y*16+off+off2y+(n*16*_ysc)+16,_obj)

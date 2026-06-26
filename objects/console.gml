@@ -104,10 +104,21 @@ if (keyboard_check_pressed(vk_enter) && !off) {
                 exit;
             }
 
-            cleanupObjects();
             indexCustomObjects();
 
             with(customobject) {
+                event_user(0);
+            }
+            with(customobjectenemy) {
+                event_user(0);
+            }
+            with(customobjectcollider) {
+                event_user(0);
+            }
+            with(customobjecthittable) {
+                event_user(0);
+            }
+            with(customobjectmoving) {
                 event_user(0);
             }
         break;
@@ -326,7 +337,6 @@ if (keyboard_check_pressed(vk_enter) && !off) {
                 }
             }
 
-            cleanupScripts();
             indexScripts();
             with scriptblock {event_user(0)}
         break}

@@ -331,6 +331,18 @@ if !pause && !players[view_current].hudoff_custom {
     with customobject {
         code_execute(drawguievent)
     }
+    with customobjectenemy {
+        code_execute(drawguievent)
+    }
+    with customobjectcollider {
+        code_execute(drawguievent)
+    }
+    with customobjecthittable {
+        code_execute(drawguievent)
+    }
+    with customobjectmoving {
+        code_execute(drawguievent)
+    }
 }
 
 //moved red rings to drawskinnablehud because they're a part of the hud :) -moster

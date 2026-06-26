@@ -184,6 +184,7 @@ global.extensionlist=ds_list_create();
 global.customsprites=ds_map_create();
 global.levelscripts = ds_map_create();
 global.objectscripts = ds_map_create();
+global.customobjecttypes = ds_map_create();
 global.objectlemonlist = ds_map_create();
 
 indexCustomObjects();

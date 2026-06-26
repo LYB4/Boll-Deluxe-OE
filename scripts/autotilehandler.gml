@@ -23,7 +23,21 @@ with (swinginghammer) getregion(x)
 global.always_codeblock_count=0
 with (code) event_user(0)
 with (scriptblock) event_user(0)
-with (customobject) event_user(0)
+with(customobject) {
+    event_user(0);
+}
+with(customobjectenemy) {
+    event_user(0);
+}
+with(customobjectcollider) {
+    event_user(0);
+}
+with(customobjecthittable) {
+    event_user(5);
+}
+with(customobjectmoving) {
+    event_user(0);
+}
 with (activate_region) event_user(0)
 
 

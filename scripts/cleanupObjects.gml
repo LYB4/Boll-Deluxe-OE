@@ -13,3 +13,4 @@ repeat(size) {
 }
 ds_map_clear(global.objectscripts);
 ds_map_clear(global.objectlemonlist);
+ds_map_clear(global.customobjecttypes);
