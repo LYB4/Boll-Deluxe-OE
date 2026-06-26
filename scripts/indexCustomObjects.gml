@@ -82,7 +82,7 @@ while(_folder != "") {
             _file=dir+_folder+"\lemon.ini";
 
             if (file_exists(_file)) {
-                var _tempmap;
+                var _tempmap,_parent;
                 _tempmap = ds_map_create();
 
                 ini_open(_file);
@@ -90,6 +90,7 @@ while(_folder != "") {
                 ds_map_set(_tempmap,"displayname",ini_read_string("lemon","displayname","missing name"))
                 ds_map_set(_tempmap,"description",ini_read_string("lemon","description",""))
                 ds_map_set(_tempmap,"palspritename",ini_read_string("lemon","palspritename",""))
+                ds_map_set(_tempmap,"parent",ini_read_string("lemon","parent",_name));
 
                 if (ds_map_get(_tempmap,"palspritename")!="") {
                     if (file_exists(dir+_folder+"\"+ds_map_get(_tempmap,"palspritename")+".png")) {
