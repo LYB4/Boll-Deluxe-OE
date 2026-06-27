@@ -15,15 +15,22 @@ applies_to=self
 if (lemonhappy()) {
 
     j=hotbar.obj[hotbar.cur]
-    if (lemongrab.objlist[j,0]=groundsemi||
-    lemongrab.objlist[j,0]=slopel1s||
-    lemongrab.objlist[j,0]=slopel2s||
-    lemongrab.objlist[j,0]=sloper1s||
-    lemongrab.objlist[j,0]=sloper2s||
-    lemongrab.objlist[j,0]=uslopel1s||
-    lemongrab.objlist[j,0]=uslopel2s||
-    lemongrab.objlist[j,0]=usloper1s||
-    lemongrab.objlist[j,0]=usloper2s){
+    var checkobj;
+    if is_real(lemongrab.objlist[j,0]) {
+        checkobj=object_get_name(lemongrab.objlist[j,0]);
+    } else {
+        checkobj=string(lemongrab.objlist[j,0]);
+    }
+
+    if (checkobj="groundsemi"||
+        checkobj="slopel1s"||
+        checkobj="slopel2s"||
+        checkobj="sloper1s"||
+        checkobj="sloper2s"||
+        checkobj="uslopel1s"||
+        checkobj="uslopel2s"||
+        checkobj="usloper1s"||
+        checkobj="usloper2s"){
         if (x>0) if (!place_meeting(x-1,y,semicontainer) && !place_meeting(x-1,y,editflood)) instance_create(x-1,y,editflood)
         if (x<lemongrab.w[drawregion.region]-1) if (!place_meeting(x+1,y,semicontainer) && !place_meeting(x+1,y,editflood)) instance_create(x+1,y,editflood)
         if (y>0) if (!place_meeting(x,y-1,semicontainer) && !place_meeting(x,y-1,editflood)) instance_create(x,y-1,editflood)
@@ -33,15 +40,15 @@ if (lemonhappy()) {
         i.obj=lemongrab.objlist[j,0]
         i.spr=lemongrab.objlist[j,1]
         lemongrasschecker(i);
-    } else if (lemongrab.objlist[j,0]=groundback||
-    lemongrab.objlist[j,0]=slopel1b||
-    lemongrab.objlist[j,0]=slopel2b||
-    lemongrab.objlist[j,0]=sloper1b||
-    lemongrab.objlist[j,0]=sloper2b||
-    lemongrab.objlist[j,0]=uslopel1b||
-    lemongrab.objlist[j,0]=uslopel2b||
-    lemongrab.objlist[j,0]=usloper1b||
-    lemongrab.objlist[j,0]=usloper2b){
+    } else if (checkobj="groundback"||
+                checkobj="slopel1b"||
+                checkobj="slopel2b"||
+                checkobj="sloper1b"||
+                checkobj="sloper2b"||
+                checkobj="uslopel1b"||
+                checkobj="uslopel2b"||
+                checkobj="usloper1b"||
+                checkobj="usloper2b"){
         //back-ground painting
         if (x>0) if (!place_meeting(x-1,y,backcontainer) && !place_meeting(x-1,y,editflood)) instance_create(x-1,y,editflood)
         if (x<lemongrab.w[drawregion.region]-1) if (!place_meeting(x+1,y,backcontainer) && !place_meeting(x+1,y,editflood)) instance_create(x+1,y,editflood)
@@ -51,7 +58,7 @@ if (lemonhappy()) {
         i=instance_create(x,y,lemongrab.backs[drawregion.region])
         i.obj=lemongrab.objlist[j,0]
         i.spr=lemongrab.objlist[j,1]
-    } else if (lemongrab.objlist[j,0]=waterblock) {
+    } else if (checkobj="waterblock") {
         //water painting
         if (x>0) if (!place_meeting(x-1,y,watercontainer) && !place_meeting(x-1,y,editflood)) instance_create(x-1,y,editflood)
         if (x<lemongrab.w[drawregion.region]-1) if (!place_meeting(x+1,y,watercontainer) && !place_meeting(x+1,y,editflood)) instance_create(x+1,y,editflood)

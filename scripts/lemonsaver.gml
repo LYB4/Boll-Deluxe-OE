@@ -67,7 +67,7 @@ instance_activate_object(objcontainer)
 instance_activate_object(watercontainer)
 instance_activate_object(semicontainer)
 instance_activate_object(backcontainer)
-var r,deity,water,w,h,size,i,j,yes,obj,b,ent,k;
+var r,deity,water,w,h,size,i,j,yes,obj,realobj,b,ent,k;
 
 writestring("[reg]")
 for (r=0;r<8;r+=1) {
@@ -119,7 +119,11 @@ for (r=0;r<8;r+=1) {
     writebyte(yes)
 
     for (j=1;j<=l;j+=1) {
-        obj=string(lemongrab.objlist[j,0])
+        if (is_real(lemongrab.objlist[j,0])) {
+            obj=object_get_name(lemongrab.objlist[j,0]);
+        } else {
+            obj=string(lemongrab.objlist[j,0])
+        }
         realobj = lemongrab.objlist[j,0]
         ent=lemongrab.objlist[j,21]
 
@@ -140,13 +144,13 @@ for (r=0;r<8;r+=1) {
                 }
             }
         } else if obj="groundsemi"||obj="slopel1s"||obj="sloper2s"||obj="sloper1s"||obj="slopel2s"||obj="uslopel1s"||obj="uslopel2s"||obj="usloper1s"||obj="usloper2s"{
-            yes=0 with (semi) if (string(self.obj)=obj) yes+=1 with (deity) if (string(self.obj)=obj) yes+=1 //hopefully stop crashes due to wrong layer
+            yes=0 with (semi) if (string(self.obj)=string(realobj)) yes+=1 with (deity) if (string(self.obj)=string(realobj)) yes+=1 //hopefully stop crashes due to wrong layer
             if (yes) {
                 writestring(object_get_name(realobj))
                 writebyte(0)
                 writeuint(yes)
 
-                with (semi) if (string(self.obj)=obj) {
+                with (semi) if (string(self.obj)=string(realobj)) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
                     external_call(global._BufY,b&$ffff,0) //writeushort
@@ -154,7 +158,7 @@ for (r=0;r<8;r+=1) {
                     external_call(global._BufY,scaley,0) //writeushort
                 }
 
-                with (deity) if (string(self.obj)=obj) {
+                with (deity) if (string(self.obj)=string(realobj)) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
                     external_call(global._BufY,b&$ffff,0) //writeushort
@@ -163,13 +167,13 @@ for (r=0;r<8;r+=1) {
                 }
             }
         } else if obj="groundback"||obj="slopel1b"||obj="sloper2b"||obj="sloper1b"||obj="slopel2b"||obj="uslopel1b"||obj="usloper2b"||obj="usloper1b"||obj="uslopel2b"{
-            yes=0 with (back) if (string(self.obj)=obj) yes+=1 with (deity) if (string(self.obj)=obj) yes+=1
+            yes=0 with (back) if (string(self.obj)=string(realobj)) yes+=1 with (deity) if (string(self.obj)=string(realobj)) yes+=1
             if (yes) {
                 writestring(object_get_name(realobj))
                 writebyte(0)
                 writeuint(yes)
 
-                with (back) if (string(self.obj)=obj) {
+                with (back) if (string(self.obj)=string(realobj)) {
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte
                     external_call(global._BufY,b&$ffff,0) //writeushort
@@ -178,7 +182,7 @@ for (r=0;r<8;r+=1) {
                 }
             }
         } else {
-            yes=0 with (deity) if (string(self.obj)=obj) yes+=1
+            yes=0 with (deity) if (string(self.obj)=string(realobj)) yes+=1
 
             if (yes) {//write an entity list
                 if !is_string(realobj) {
@@ -189,7 +193,7 @@ for (r=0;r<8;r+=1) {
                 writebyte(ent) // is entity? ie has data
                 writeuint(yes)
 
-                with (deity) if (string(self.obj)=obj) {//write x, y, then all data fields
+                with (deity) if (string(self.obj)=string(realobj)) {//write x, y, then all data fields
                     dataid=j
                     b=(x << 12) + y
                     external_call(global._BufA,b>>16,0) //writebyte

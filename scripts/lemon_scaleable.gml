@@ -2,16 +2,39 @@
 //determines if you're allowed to scale a container by checking every single valid object seperately because idk a better way to do this
 
 var a; a = argument[0]
+var obj;
+obj = string(a.obj);
 
-if (a.obj == groundblock || a.obj == groundsemi   || a.obj == groundback    ||
-    a.obj == hardblock   || a.obj == bighardblock || a.obj == castleceiling ||
-    a.obj == waterblock  || a.obj == lavablock    || a.obj == cloudtile     ||
-    a.obj == ground      || a.obj == barrier      || a.obj == phaser        ||
-    a.obj == bridgetile  || a.obj == treeblock    || a.obj == spike         ||
-    a.obj == mushblock   || a.obj == mushblock2   || a.obj == mushblock3    ||
-    a.obj == brick       || a.obj == itembox      || a.obj == bigitembox    ||
-    a.obj == bigbrick    || a.obj == crate        || a.obj == crackedground ||
-    keyboard_check(vk_insert)) {
-    return a
+if (keyboard_check(vk_insert)) return a;
+
+switch(obj) {
+    case "groundblock":
+    case "hardblock":
+    case "waterblock":
+    case "ground":
+    case "bridgetile":
+    case "mushblock":
+    case "brick":
+    case "bigbrick":
+    case "groundsemi":
+    case "bighardblock":
+    case "lavablock":
+    case "barrier":
+    case "treeblock":
+    case "mushblock2":
+    case "itembox":
+    case "crate":
+    case "groundback":
+    case "castleceiling":
+    case "cloudtile":
+    case "phaser":
+    case "spike":
+    case "sonicspike":
+    case "mushblock3":
+    case "bigitembox":
+    case "crackedground":
+        return a;
+    break;   
 }
+
 return noone;

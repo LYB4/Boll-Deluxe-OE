@@ -76,24 +76,29 @@ repeat (8) {
 
             m = 0; n = 0;
             scalex = max(1, scalex); scaley = max(1, scaley)
-            var _obj,iscustomobject;
+            var _obj,iscustomobject,makegroundblock;
             _obj = obj;
             iscustomobject=false;
+            makegroundblock=false;
 
-            switch (string(obj)) {
-                case "groundblock": _obj = ground;
+            if is_real(obj) {
+                obj = object_get_name(obj);
+            }
+
+            switch (obj) {
+                case "groundblock": _obj = ground makegroundblock = true;
                 case "ground":
                 case "phaser":
                 case "barrier":
                     o=instance_create(offx+x*16+off+off2x,y*16+off+off2y+16,_obj)
                     o.image_xscale = scalex;
                     o.image_yscale = scaley;
-                if (string(obj) != "groundblock") break;
+                if (obj != "groundblock") break;
 
                 default:
                     repeat (scalex) {
                         repeat (scaley) {
-                            if is_string(obj) {
+                            if string_starts_with(obj,"MODDEDOBJECT_") {
                                 var objtype;
                                 objtype = string_trim(obj,"MODDEDOBJECT_");
                                 switch(ds_map_find_value(global.customobjecttypes,objtype)) {
@@ -113,11 +118,12 @@ repeat (8) {
                                 }
                                 iscustomobject = true;
                             }
+                            if (makegroundblock) _obj = groundblock;
                             o=instance_create(offx+x*16+off+off2x+(m*16*_xsc),y*16+off+off2y+(n*16*_ysc)+16,_obj)
                             if (iscustomobject) {
                                 o.mytype = string_trim(obj,"MODDEDOBJECT_")
                             }
-                            if (string(_obj) == "groundblock") o.scaled = 1;
+                            if (obj == "groundblock") o.scaled = 1;
                             count=lg.objlist[dataid,3]
                             if (count) {j=0 repeat (count) {variable_instance_set(o,lg.objlist[dataid,5+j],data[j]) j+=1}}
                             n += 1;

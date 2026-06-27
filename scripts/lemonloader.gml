@@ -1,6 +1,6 @@
 ///lemonloader(filename)
 //loads the actual level data into lemongrab and objcontainers
-var fn,fnf,l,t,f,fs,i,o,b,c,lv,size,map,r,deity,water,w,h,obj,ent,did,k,converted,str,test;
+var fn,fnf,l,t,f,fs,i,o,b,c,lv,size,map,r,deity,water,w,h,obj,realobj,ent,did,k,converted,str,test;
 
 fn=argument[0]
 

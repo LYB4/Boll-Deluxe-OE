@@ -26,9 +26,19 @@ action_id=603
 applies_to=self
 */
 if (place_meeting(x,y+1,object_index)) {
-    var i;
+    var i,checkobj,checkobj2;
+    if (is_real(obj)) {
+        checkobj = object_get_name(obj)
+    } else {
+        checkobj=string(obj);
+    }
     i=instance_place(x,y+1,object_index);
-    if ((obj == groundblock || obj == slopel1 || obj == sloper1 || obj == sloper2 || obj == slopel2) && i.obj == groundblock) {
+    if (is_real(i.obj)) {
+        checkobj2 = object_get_name(i.obj)
+    } else {
+        checkobj2=string(i.obj);
+    }
+    if ((checkobj == "groundblock" || checkobj == "slopel1" || checkobj == "sloper1" || checkobj == "sloper2" || checkobj == "slopel2") && checkobj2 == "groundblock") {
         i.frame=0;
     }
 }

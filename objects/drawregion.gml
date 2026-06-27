@@ -360,7 +360,6 @@ if (within(editcursor.x,editcursor.y,mmx+100-mmw/2,mmy+72-mmh/2,mmw,mmh)) {
                 if (i>=0) {
                     data[i]=string_replace_all(editobjmenu(obj,i,data[i]),"|","")
                     if (lemongrab.objlist[j,5+i]="align") unpack_align(id)
-                    if string(obj)!="code"
                     with (drawregion.deity) if (string(obj)=string(other.obj) && selected) {
                         data[i]=other.data[i]
                         if (lemongrab.objlist[j,5+i]="align") {off2x=other.off2x off2y=other.off2y}
@@ -972,11 +971,6 @@ if (selecting) {
                                 i.obj=lemongrab.objlist[j,0]
                                 i.spr=lemongrab.objlist[j,1]
                                 i.off=lemongrab.objlist[j,2]
-                                if (i.obj == groundblock) {
-                                    if (v==sely) {
-                                        lemongrasschecker(i);
-                                    } else i.frame = 1;
-                                }
                                 if (hotbar.picked[hotbar.cur]) for (k=0;k<12;k+=1) i.data[k]=hotbar.data[hotbar.cur,k]
                                 else for (k=0;k<12;k+=1) i.data[k]=lemongrab.objlist[j,k+101]
                                 if (lemongrab.objlist[j,5]="align") unpack_align(i)
