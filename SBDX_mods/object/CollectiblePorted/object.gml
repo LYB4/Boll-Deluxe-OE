@@ -236,7 +236,6 @@ if type==2{
 }
 
 #define lemon_data
-
 switch(argument0) {
 	case 1: global.cobjectreturn = "0" break;
 	case 2: global.cobjectreturn = 0 break;

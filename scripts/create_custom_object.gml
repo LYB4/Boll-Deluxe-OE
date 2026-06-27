@@ -26,4 +26,8 @@ if is_string(obj) {
             event_user(5);
         }
     }
+
+    return o
 }
+
+return noone
