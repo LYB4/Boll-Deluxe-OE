@@ -77,6 +77,14 @@ twojectile type=flamingknuckle
 twojectile limit=2
 twojectile firing duration=16
 
+glide=false
+upstreamglide=true
+climb=true
+climbspeed=1
+fly=true
+flyenergy=5
+
+
 [simple-basic]
 top speed=3.25
 
@@ -157,6 +165,17 @@ size reroute lui=big
 size reroute fire=big
 size reroute feather=big
 size reroute extra=big
+
+reroute glide=dive
+reroute glideturn=sideflip
+reroute glideclimb=ball
+reroute glideclimbstill=wallslide
+reroute glideclimbdown=ball
+reroute fly=momentumbreak
+reroute flytired=momentumbreak
+reroute flyup=doublejump
+reroute fly=dive
+reroute flydown=poundfall
 
 use paletting=true
 defaultspray 1=8
