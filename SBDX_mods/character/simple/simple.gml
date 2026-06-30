@@ -1,9 +1,9 @@
 #define spritelist
-stand,wait,lookup,pose,crouch,knock,dead,walk,run,maxrun,brake,spring,airwalk,jump,bonk,ball,spindash,push,hang,fire,fire2,fire3,dash,dashfall,dropdash,slide,zerodash,momentumbreak,wallslide,doublejump,doublejumpbonk,doublejumpfall,runjump,longjump,sideflip,groundpound,poundfall,marioslide,dive,spinjump,dash8glide,dash8up,dash8diagup,dash8side,dash8diagdown,dash8down,climbing,flagslide,grind,piping,pipingup,sidepiping,doorenter,doorexit,tailspin,tailidle
+stand,wait,lookup,pose,crouch,knock,dead,walk,run,maxrun,brake,spring,airwalk,jump,bonk,ball,spindash,push,hang,fire,fire2,fire3,dash,dashfall,dropdash,slide,zerodash,momentumbreak,wallslide,doublejump,doublejumpbonk,doublejumpfall,runjump,longjump,sideflip,groundpound,poundfall,marioslide,dive,spinjump,dash8glide,dash8up,dash8diagup,dash8side,dash8diagdown,dash8down,fly,flyup,flydown,flyswim,flytired,glide,glideturn,glideclimb,glideclimbdown,glideclimbstill,climbing,flagslide,grind,piping,pipingup,sidepiping,doorenter,doorexit,tailspin,tailidle
 
 
 #define soundlist
-release,skid,spin,spindash,insta,slide,boom,dash,dropdash,fireball,firedash,fly,jump2,peelcharge,peelrelease,tired,wallkick,smallwallkick,dive,8dash,bomb
+release,skid,spin,spindash,insta,slide,boom,dash,dropdash,fireball,firedash,fly,jump2,peelcharge,peelrelease,tired,wallkick,smallwallkick,dive,8dash,bomb,fly,tired,swim
 
 
 #define movelist
@@ -195,6 +195,26 @@ for (i=0;i<=7;i+=1){
 	has_tails[i]=funnytruefalse(playerskindat(p2,"simple-overall has tails"))
 	temp=playerskindat(p2,"simple"+sizename+" has tails")	if (string(temp)!="0") has_tails[i]=funnytruefalse(temp)
 	
+	can_fly[i]=funnytruefalse(playerskindat(p2,"simple-overall fly"))
+	temp=playerskindat(p2,"simple"+sizename+" fly")	if (string(temp)!="0") can_fly[i]=funnytruefalse(temp)
+	
+	fly_energy_cap[i]=unreal(playerskindat(p2,"simple-overall flyenergy"),0)
+	temp=playerskindat(p2,"simple"+sizename+" flyenergy")	if (string(temp)!="0") fly_energy_cap[i]=real(temp)
+	
+	
+	//Knuckles
+	can_glide[i]=funnytruefalse(playerskindat(p2,"simple-overall glide"))
+	temp=playerskindat(p2,"simple"+sizename+" glide")	if (string(temp)!="0") can_glide[i]=funnytruefalse(temp)
+	
+	can_glide_upstream[i]=funnytruefalse(playerskindat(p2,"simple-overall upstreamglide"))
+	temp=playerskindat(p2,"simple"+sizename+" upstreamglide")	if (string(temp)!="0") can_glide_upstream[i]=funnytruefalse(temp)
+	
+	can_climb[i]=funnytruefalse(playerskindat(p2,"simple-overall climb"))
+	temp=playerskindat(p2,"simple"+sizename+" climb")	if (string(temp)!="0") can_climb[i]=funnytruefalse(temp)
+	
+	climb_speed[i]=funnytruefalse(playerskindat(p2,"simple-overall climbspeed"))
+	temp=playerskindat(p2,"simple"+sizename+" climbspeed")	if (string(temp)!="0") climb_speed[i]=real(temp)
+	
 	//The Kid
 	can_airjump[i]=funnytruefalse(playerskindat(p2,"simple-overall airjump"))
 	temp=playerskindat(p2,"simple"+sizename+" airjump")	if (string(temp)!="0") can_airjump[i]=funnytruefalse(temp)
@@ -206,16 +226,17 @@ for (i=0;i<=7;i+=1){
 	temp=playerskindat(p2,"simple"+sizename+" airjump refreshes other moves")	if (string(temp)!="0") airjumpy_refresh[i]=funnytruefalse(temp)
 	
 	airjumpy_changehsp[i]=funnytruefalse(playerskindat(p2,"simple-overall airjump changehorspeed"))
-	temp=playerskindat(p2,"simple"+sizename+" airjump changevertspeed")	if (string(temp)!="0") airjumpy_changevsp[i]=funnytruefalse(temp)
-	
-	airjumpy_changevsp[i]=funnytruefalse(playerskindat(p2,"simple-overall airjump changevertspeed"))
-	temp=playerskindat(p2,"simple"+sizename+" airjump vertspeed")	if (string(temp)!="0") airjumpy_vsp[i]=real(temp)
-	
-	airjumpy_hsp[i]=unreal(playerskindat(p2,"simple-overall airjump horspeed"),0)
 	temp=playerskindat(p2,"simple"+sizename+" airjump changehorspeed")	if (string(temp)!="0") airjumpy_changehsp[i]=funnytruefalse(temp)
 	
-	airjumpy_vsp[i]=unreal(playerskindat(p2,"simple-overall airjump vertspeed"),0)
+	airjumpy_changevsp[i]=funnytruefalse(playerskindat(p2,"simple-overall airjump changevertspeed"))
+	temp=playerskindat(p2,"simple"+sizename+" airjump changevertspeed")	if (string(temp)!="0") airjumpy_changevsp[i]=funnytruefalse(temp)
+	
+	airjumpy_hsp[i]=unreal(playerskindat(p2,"simple-overall airjump horspeed"),0)
 	temp=playerskindat(p2,"simple"+sizename+" airjump horspeed")	if (string(temp)!="0") airjumpy_hsp[i]=real(temp)
+	
+	airjumpy_vsp[i]=unreal(playerskindat(p2,"simple-overall airjump vertspeed"),0)
+	temp=playerskindat(p2,"simple"+sizename+" airjump vertspeed")	if (string(temp)!="0") airjumpy_vsp[i]=real(temp)
+	
 
 
 
@@ -530,9 +551,51 @@ if (owner.instashieldin){
                     instance_create(x,y,kickpart)
                 }
     }
-} else {
-    y=-1000
-}
+} else if (owner.fly && !owner.piped && !owner.water) {
+    x=owner.x+owner.hsp
+    y=owner.y-1+owner.vsp
+	sprite_index=spr_mask2x2
+	mask_index=spr_mask2x2
+	hittype="tail"
+		if (owner.size) {
+			image_xscale=12
+			image_yscale=6
+		} else {
+			image_xscale=8
+			image_yscale=2
+		}
+	coll=instance_place(x,y,collider)
+	if (coll) {
+		if (object_is_ancestor(coll.object_index,hittable)) {
+			if (coll.object_index=brick) brickc+=1 else brickc=4
+			hitblock(coll,owner,0,esign(coll.y-owner.y),0)
+		}    
+	}
+
+	coll=instance_place(x,y,enemy)
+	if (coll) {                    
+		if (coll.object_index!=bombenemy && coll.object_index!=drybones 
+		&& coll.object_index!=boo && coll.object_index!=urchin
+		&& coll.object_index!=pokey && coll.object_index!=pokeybody) {
+		global.coll=owner.id
+		enemydie(coll,2)
+		}
+	}
+	nah=0
+	coll=instance_place(x,y,player)
+	if (coll) {
+		with coll if (is_invincible("tail")) other.nah=1
+		
+		if (coll.id!=owner) if !nah if (!invincible(coll)) {    
+			if (!flag.passed[owner.p2] && !flag.passed[coll.p2] && !coll.flash && !coll.piped) { 
+				coll.hittype=hittype
+				with (coll) hurtplayer(hittype)
+			}
+			instance_create(x,y,kickpart)
+		}
+	}
+} else y=-verybignumber
+
 
 #define grabflagpole
 grabflagpole=1
@@ -553,6 +616,7 @@ if (hsp>=3 || push) {
 #define sprmanager
 frspd=1
 cantslowanim=0
+keepframebetween=0
 if (grabflagpole) {sprite="flagslide"}
 else if (pound) {sprite="groundpound" if (pound>12 || stoppounding || vsp>0) sprite="poundfall"}
 else if (hurt||wallbonk) {sprite="knock"}
@@ -566,9 +630,50 @@ else if (jump) {
 	else if (mombreak) {sprite="momentumbreak"}
 	else if (wallhang && vsp>=1 && !spinjump && can_wallhang[size]) {sprite="wallslide"}
 	else if (zerodash){sprite ="zerodash"}
-	else if (dropdash) {sprite="dropdash"}
+
 	else if (dash8timer) {sprite="dash8side" if vsp<0 {if hsp!=0 sprite="dash8diagup" else sprite="dash8up"} else if vsp> 0 {if hsp!=0 sprite="dash8diagdown" else sprite="dash8down"}}
 	else if dash8gliding { sprite="dash8glide"}
+	else if (fly) {
+		sprite="fly" 
+		if (oldspr="flyup" || oldspr="flydown") keepframebetween=1
+		if fly>5 {
+			sprite="flyup" 
+			if (oldspr="flydown" || oldspr="fly") keepframebetween=1
+		} 
+		if (down) {
+			sprite="flydown" 
+			if (oldspr="fly" || oldspr="flyup") keepframebetween=1
+		}
+		if (tired) 
+			sprite="flytired" 
+		frspd=1-0.5*tired +(fly/30) 
+		if underwater() sprite="flyswim"
+	}
+	else if (glide) {
+	    if oldglideanim {
+		    sprite="glide" frspd=0 frame=0.5+abs(ggf)*1.5 //oldspr="glide"
+		} else {
+			if ggf!=gg {prevent_spr_reset=1 sprite="glideturn"} else {prevent_spr_reset=1 sprite="glide"} 
+			if (sprite="glideturn") && (playerskindat(p2,"glideanim"+string(p2))) {
+				hasgted=1
+				
+				frspd=0
+				if (xsc>0) frame=(ggf2+1)*((frn)/2)
+				else if (xsc<0) frame=((ggf2+1)*-((frn)/2))+(frn)
+				if (frame>=(frn)) {prevent_spr_reset=1 sprite="glide"}
+				
+				/*
+				frspd=0 
+				//frame=((0.5+abs(ggf)*1.5)*(1.5))
+				if (xsc>0) frame=(ggf2+1)*2.5
+				else if (xsc<0) frame=((ggf2+1)*-2.5)+5
+				if (frame>=5) {prevent_spr_reset=1 sprite="glide"}
+				*/
+			} 
+		}
+	}
+    else if (climb) {if vsp<0{sprite="glideclimb"} else if vsp>0 {sprite="glideclimbdown"}else sprite="glideclimbstill" frspd=1}
+	else if (dropdash) {sprite="dropdash"}
 	else if (dive) {sprite="dive"}
 	else if (spinjump) sprite="spinjump"
     else if (sprung) {sprite="spring" fallspr="airwalk" if (vsp>=0) {sprung=0 fall=1}}
@@ -618,7 +723,7 @@ else if (jump) {
         else {sprite="walk" frspd=0.2+abs(hsp/4)}
     }
 }
-
+if !(glide) prevent_spr_reset=0
 
 #define controls
 com_inputstack()
@@ -653,7 +758,7 @@ if (h!=0 && !wallkick) {
     if (x<=minx && left) coll=1
     if (coll) {
         com_hitwall(h)
-        if (!pound && !jump && !spin && !crouch && !firedash) {
+        if (!pound && !jump && !spin && !crouch && !firedash ) {
             push=h
             xsc=h
             braking=0			
@@ -731,7 +836,7 @@ dash8timer-=1
 
 //code for specifically the a button
 if ((abut || jumpbufferdo) && (!springin)) {
-    if (!jump||fall=69||onvine||grabflagpole) { //jump
+    if (!jump||fall=69||onvine||grabflagpole|| climb) { //jump
         if (hsp==0 && crouch && !slide && push==0 &&fall!=69 &&!grabbedflagpole && can_spindash[size]) {
             playsfx(name+"spindash",0,1+(median(0,spindash-1,3)/3)*playerskindat(p2,"pitchdash"+string(p2)))
             spindash=min(4,spindash+1)
@@ -775,9 +880,13 @@ if ((abut || jumpbufferdo) && (!springin)) {
 			if !down spin=0
             if (spin && !star) seqcount=0
             fallspd=min(1,0.5+abs(hsp)/5)
+			
+			if (climb) {climb=0 vsp=-2 hsp=-3*sideclimb xsc*=-1}
+			climb=0
+			climbinsted=0
         }
     } else { //air jumps
-		if (wallhang && can_wallkick[size] && !carry && !flying) {
+		if (wallhang && can_wallkick[size] && !carry && !fly) {
             wallhang=0 spinjump=0 dive=0 triplejump=0 triplexsc=0
             kicked=xsc
             hsp=esign((right)+(-left),xsc)*-2.5 jumpspd=100 instance_create(x+6*xsc,y+8,kickpart)
@@ -791,7 +900,7 @@ if ((abut || jumpbufferdo) && (!springin)) {
 			sideflip=0
             canstopjump=1
         } else {
-			
+			climbinsted=1
 			if can_airjump[size] && airjumpy_total[size]>airjumps && (!wallbonk || airjumpy_refresh[size]){
 				airjumps+=1
 				if airjumpy_refresh[size] insted=false
@@ -809,6 +918,36 @@ if ((abut || jumpbufferdo) && (!springin)) {
 				
 				if can_luijump[size] luijump=9
 				
+			} else if can_fly[size]{ 
+				if (fly) {
+					spritekeep=0
+					if (down) {fly=0 fall=0}
+					if (!tired) fly=30
+				} else {
+					if ((fall=fall_type[size]||fall=0|| fall=5 || fall=1) && y>view_yview[p2]) {
+						spritekeep=0
+						fly=30
+						fall=1
+						tired=(flight_energy<1)
+						if tired fly=1
+						mc=0
+						if (inst) {stopsfx(inst) inst=0}
+					}
+				}
+			} else if can_glide[size]{
+				if ((fall=fall_type[size]||fall=0 || fall=5)&& !didupper) {
+					glide=1
+					hasgted=0
+					fall=0
+				  if (can_glide_upstream[size]) {if vsp>-1.5 vsp=-1.5}
+					vsp-=0.5
+					glidec=max(0,abs(hsp)-2)
+					glidev=vsp
+
+					gg=xsc
+					ggf=xsc
+					ggf2=xsc
+				}
 			}
 			
 			
@@ -856,10 +995,14 @@ if (can_triplejump[size]){
 
 if (!akey) {
 	dropdash=0
-    if (canstopjump=1 && jump && vsp<-2 && !sprung) {
+    if (canstopjump=1 && jump && vsp<-2 && !sprung && !glide) {
         vsp*=0.5
     }
     canstopjump=0
+}
+if (!akey) {
+    if (glide) if fall!=69{glide=0 fall=4 hsp=esign(ggf,1) xsc=gg frame=0}
+else{glide=0}
 }
 
 charm_run("CheckProjectile")
@@ -979,6 +1122,14 @@ if (cbut) {
         spindash=min(4,spindash+1)
         tempbrick=1
     } else {
+		if jump && fly{
+			spritekeep=0
+			fly=0 fall=0
+			if !tired && flight_energy>0 flight_energy-=0.5
+			if flight_energy<0 flight_energy=0
+		}
+	
+	
 		if jump && can_momentumbreak[size] && !(can_dive[size] && dive) mombreak_trigger=1
 	
 		
@@ -1152,6 +1303,11 @@ if (!jump) if (loose || spin||mario_slide || crouch) {
 //speed cap rubberband formula
 maxspd= (top_speed[size]+mario_slide +(fall==10)*1.5 + boost*1  + water*0.1)*wf
 
+if (abs(hsp)>maxspd) {
+	if (fly && vsp<0) hsp=(abs(hsp)*2+3)/3*sign(hsp)
+}
+
+
 if !mario_movement[size]{
 	//There's an extra check in the hsp+= section of h!=0 to compensate!.
 	/*if (abs(hsp)>maxspd) {
@@ -1173,33 +1329,49 @@ vsp=min(6,vsp)
 calcmoving()
 
 if (!dead && !grabflagpole) {
+	if fall=69 fly=0 //lol
+
 	if fall!=69
 		player_horstep()
 	player_nslopforce()
+	
+	
     //yground=easyground()
 	//if (yground!=verybignumber) yground-=14
     if (jump) {
         //gravity
         hang=0
-        if (fall=10 && super) {
-            hsp+=(right-left)*0.25
-            if (name="ashura") vsp+=(down-up)*0.15-0.075
-            else vsp+=(down-up)*0.15+0.05+0.1*max(0,2-abs(hsp))*(vsp<2)
-            l=median(0,point_distance(0,0,hsp,vsp)-0.05,3)
-            d=point_direction(0,0,hsp,vsp)
-            hsp=lengthdir_x(l,d)
-            vsp=lengthdir_y(l,d)
-            xsc=esign(hsp,xsc)
-        } else if (pound>0) {
-			hsp=0
-			if (pound<14) {vsp=0}
-			else if (underwater() && carry) {vsp=approach_val(vsp,0,0.075)}
-			else if (pound>=14 && pound<15) {vsp=6*wf}
-			else if (water) {vsp-=0.1*wf if (vsp<1.5) {pound=0}}
-			else  {vsp+=0.375*wf}
-		}else if fall!=69 && !luijump && !dash8timer && !climb{
-            vsp+=0.15*wf-(size=5 && vsp>-0.35 && !water)*0.075
-        }
+		
+		if (fly) {
+			dropdash=0
+			if (fly>1) {vsp-=0.1 if (y<view_yview[p2]) {y=view_yview[p2] vsp=0.75 sound("itemblockbump")}}
+			else vsp+=0.05
+			if down vsp+=0.3
+			vsp=median(2+down,vsp,-1-(5*(size=4)))
+        } else {
+			if (fall=10 && super) {
+				hsp+=(right-left)*0.25
+				if (name="ashura") vsp+=(down-up)*0.15-0.075
+				else vsp+=(down-up)*0.15+0.05+0.1*max(0,2-abs(hsp))*(vsp<2)
+				l=median(0,point_distance(0,0,hsp,vsp)-0.05,3)
+				d=point_direction(0,0,hsp,vsp)
+				hsp=lengthdir_x(l,d)
+				vsp=lengthdir_y(l,d)
+				xsc=esign(hsp,xsc)
+			} else if (pound>0) {
+				hsp=0
+				if (pound<14) {vsp=0}
+				else if (underwater() && carry) {vsp=approach_val(vsp,0,0.075)}
+				else if (pound>=14 && pound<15) {vsp=6*wf}
+				else if (water) {vsp-=0.1*wf if (vsp<1.5) {pound=0}}
+				else  {vsp+=0.375*wf}
+			}else if fall!=69 && !luijump && !dash8timer && !climb{
+				vsp+=0.15*wf-(size=5 && vsp>-0.35 && !water)*0.075
+			}
+		}
+		
+		if (climb) {vsp=(down-up)*climb_speed[size]*wf  dropdash=0 fly=0 dash8gliding=0 dash8timer=0}
+		
 		vine_climbing()
 		if (onvine){
 			dive=0
@@ -1244,6 +1416,11 @@ if (!dead && !grabflagpole) {
 		slide=0
 		
 		if (wallhang>0 && vsp>1 && !spinjump && !water && can_wallhang[size]) vsp=1.5
+		
+		if (wallhang>0 && akey && can_climb[size] && climbinsted) {
+			 {climb=1 glide=0 sideclimb=esign(hitside,xsc) climbinsted=0}
+		
+		}
 		
 		player_vertstep()
 		if (!jump) sld=point_direction(0,0,1,slobal)
@@ -1352,10 +1529,17 @@ if (sprite="stand")
 else if sprite!="wait" waittime=0
 }
 
+if (fly){
+soundframe-=1
+if soundframe<0{if underwater() playsfx("simpleswim") else if tired playsfx("simpletired")else playsfx("simplefly") soundframe=15 if tired soundframe=30}
+}
+
 //grounded state
 if (!jump) {
-wallbonk=0
-spinjump=0
+	fly=0
+	flight_energy=fly_energy_cap[size]
+	wallbonk=0
+	spinjump=0
 	wallhang=0
     vsp=0
 	sideflip=0
@@ -1443,6 +1627,38 @@ if (global.dustframe) {
         if (speedwagon>60) shoot(x,y,psmoke,0,1)
     } else speedwagon=0
     if (abs(hsp)>4 && boostvar>=0.75 && !jump) shoot(x-12*xsc,y+12,psmoke,0,0)
+}
+
+if (glide) {
+    glidev=max(0.25,glidev-0.1)
+    vsp=min(glidev,vsp)
+    glidec=min(1+(size>0 && size!=5),glidec+0.02)
+    if (right && !left && gg!=1) {gg=1}
+    if (left && !right && gg!=-1) {gg=-1}
+    if (gg=0) gg=fixxsc
+    ggf=min(1,max(-1,ggf+sign(gg-ggf)/25))
+	ggf2=min(1,max(-1,ggf2+sign(gg-ggf2)/25))
+    if (size=3) {hsp=(2.5+glidec)*ggf*max(0.5,wf)} else {hsp=(2+glidec)*ggf*max(0.5,wf)}
+	if !oldglideanim fixxsc=esign(hsp,xsc) else xsc=esign(hsp,xsc)
+} else if !oldglideanim fixxsc=xsc
+if (climb) {
+    hsp=0 xsc=sideclimb tempkill=1
+    if (!knuxcanclimb(collision(sideclimb*8,-10))) y+=1
+    if (!collision(sideclimb*8,-6)) {climb=0 jump=0 rise=sideclimb risec=0 x+=sideclimb*4 y-=6 vsp=0}
+    if (instance_place(x+8,y,axewall) || (!collision(sideclimb*4,6) && down)) {climb=0 fall=4}
+}
+if (fly) {
+	fly=max(1,fly-1)
+	mc+=!water
+	if (mc=90) {
+		flight_energy=max(0,flight_energy-1)
+		mc=0
+		if (flight_energy=0) { tired=1}
+	}
+} else {
+	tired=0
+	mc=0
+	if (inst) {stopsfx(inst) inst=0}
 }
 
 runvar=inch(runvar,run,0.05)
@@ -1710,7 +1926,7 @@ sprongin=0
 speed=0
 if (skidding) {soundstop(name+"skid") skidding=0}
 if (carry && carryid) {with (carryid) event_user(0) carryid=noone carry=0}
-
+climb=0 
 luijump=0
 energy=0
 braking=0
@@ -1730,6 +1946,11 @@ hyperspeed=0
 hp=0
 star=0
 onvine=0
+fly=0
+dash8gliding=false
+glide=0
+glideclimb=0
+
 if (super) stopsuper()   
 
 if ((!size || size==5 || ohgoditslava) && !shielded && global.rings[p2]==0) {
@@ -1863,6 +2084,9 @@ if (firedash || (spin && abs(hsp)>0.5) || (super && fall=10) || longjump||dive) 
 	hsp=0
 	hyperspeed=0        
 }
+if (can_climb[size]  && glide && climbinsted) {
+    if (knuxcanclimb(coll)) {climb=1 com_piping() glide=0 sideclimb=esign(hitside,xsc) climbinsted=0} 
+}
 
 #define landing
 braking=0
@@ -1870,6 +2094,8 @@ insted=0
 airdash=0
 dashanim=0
 boosted=0
+fly=0
+climbinsted=0
 zerodashed=0
 mombreak_trigger=0
 
@@ -1926,6 +2152,9 @@ if (insted!=2 && !spin) {
 	hsp=max(abs(hsp),2)*esign(hsp,xsc)
 	}
 }
+
+if (climb) {climb=0 rise=xsc}
+if (glide) {slide=1 hsp=(2.5+(size>0 && size!=5)+glidec)*ggf glide=0}
 
 
 #define death
