@@ -10,6 +10,7 @@ center y=28
 box width=48
 box height=48
 
+panic=false
 pitch spindash=yes
 jump ball animation=no
 fire duration=16
