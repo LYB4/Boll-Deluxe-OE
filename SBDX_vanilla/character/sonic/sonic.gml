@@ -69,6 +69,8 @@ spindustspeed=nozerounreal(playerskindat(p2,name+" spindash dust speed"),1)
 #define start
 mask_set(12,12)
 
+panic=funnytruefalse(playerskindat(p2,name+" panic"))
+
 #define stop
 if (skidding) {soundstop(name+"skid") skidding=0}
 star=0
@@ -432,8 +434,6 @@ if ((abut || jumpbufferdo) && (!springin)) {
             hsp=lengthdir_x(vm,vd)
             vsp=lengthdir_y(vm,vd)
 
-            sprite_angle=0
-
             jump=1
             if (size==7) luijump=9
             spin=0
@@ -728,6 +728,14 @@ vsp=min(7+downpiped,vsp)
 //for anyone porting a charm from unfinished build or below to this build, delete or comment all of the commented code and add player_nslopforce()
 calcmoving()
 
+if (!panic && sprite_angle != 0) {
+    sprite_angle = 0
+}
+
+if (panic && hsp!=0) {
+    sprite_angle=sprite_angle+abs(hsp)
+}
+
 if (!dead && !grabflagpole) {
     if fall!=69
     player_horstep()
@@ -756,7 +764,6 @@ player_nslopforce()
         if (!jump) sld=point_direction(0,0,1,slobal)
     }
 
-sprite_angle=0
 if (osld<180 && osld>0 && !instance_place(x-16,y+4,ground)) dy=3
 else if (osld>180 && osld<320 && !instance_place(x-16,y+4,ground)) dy=3
 
