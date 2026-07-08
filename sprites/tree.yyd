@@ -91,8 +91,10 @@
 		|spr_luigi
 		|spr_blink
 		|spr_sun
+		|spr_pressbutton
 		|spr_20
 		|spr_slidinghills
+		|spr_backhills
 		|spr_flare
 		|flare backup
 		|spr_garf

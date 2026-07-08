@@ -51,6 +51,7 @@ instance_create(0,y+16,introslide1)
 instance_create(0,y+16,introslide2)
 
 repeat (32) instance_create(0,0,introslide)
+repeat (32) instance_create(0,0,introbackgroundhill)
 
 event_user(0)
 
@@ -323,6 +324,10 @@ if (year && introtape.f20=1) {
     global.halign=1
     if (classic && year) draw_systext(x,208,"Sonic Boll is "+string(year)+" years old today!")
     global.halign=0
+}
+
+if (global.frame88<4 && introtape.f20=1 && !year) {
+    draw_sprite(spr_pressbutton,0,x+4,208)
 }
 #define KeyPress_32
 /*"/*'/**//* YYD ACTION
