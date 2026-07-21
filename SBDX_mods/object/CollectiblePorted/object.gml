@@ -109,7 +109,7 @@ if !collected || type==1
 draw_sprite_part_ext(sheet,0,190+16*round(frame),7+28*off_y,16,16,x,y,1,1,c_white,1)
 else
 draw_sprite_part_ext(sheet,0,65+25*round(frame),7+28*off_y,24,24,x,y,1,1,c_white,1)
-
+draw_systext(x,y,object_get_name(object_index))
 #define draw_gui
 
 if !global.custom_collectible_hud_drawn[realtype,view_current]{
