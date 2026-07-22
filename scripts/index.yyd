@@ -2448,3 +2448,4 @@ custom_sprite_exists
 
 editnameconvert
 create_custom_object
+instance_create_custom
