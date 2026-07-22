@@ -1,5 +1,5 @@
 ///instance_create_custom(x,y,objname [string])
-objtype = argument[2];
+objtype = string(argument[2]);
 
 switch(ds_map_find_value(global.customobjecttypes,objtype)) {
     case "enemy":
@@ -20,7 +20,7 @@ switch(ds_map_find_value(global.customobjecttypes,objtype)) {
 the_obj = instance_create(argument[0],argument[1],_obj)
 
 with the_obj {
-    mytype = objtype
+    mytype = other.objtype
     event_user(0)
 }
 
