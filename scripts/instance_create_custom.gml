@@ -1,4 +1,5 @@
 ///instance_create_custom(x,y,objname [string])
+var objtype, _obj, the_obj;
 objtype = string(argument[2]);
 
 switch(ds_map_find_value(global.customobjecttypes,objtype)) {
