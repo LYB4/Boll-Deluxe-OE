@@ -52,7 +52,7 @@ if (sub=27) {
     if (i=2) settings("nolemonsound",!settings("nolemonsound"))
     if (i=3) {mus_stop() settings("nolemonmusic",!settings("nolemonmusic")) menumusic()}
     if (i=4) {editmusic()}
-    if (i=5) {with (drawregion) {event_user(9)} if !(settings("nolemonsound")) sound("lemonselecttool")}
+    if (i=5) {with (gridtoggle) {event_user(0)}}
     if (i=6) settings("lemon disableruler",!settings("lemon disableruler"))
     if (i=7) {if settings("lemoninput")=="Keyboard" settings("lemoninput","Gamepad") else settings("lemoninput","Keyboard")}
     if (i=8) {settings("lemontasing",!settings("lemontasing"))}
