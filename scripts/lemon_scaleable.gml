@@ -3,7 +3,12 @@
 
 var a; a = argument[0]
 var obj;
-obj = string(a.obj);
+
+if is_real(argument[0]) {
+    obj=object_get_name(a);
+} else {
+    obj=a
+}
 
 if (keyboard_check(vk_insert)) return a;
 
