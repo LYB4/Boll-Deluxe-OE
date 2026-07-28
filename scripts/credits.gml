@@ -50,6 +50,32 @@ list[l]="[Hakumuda]" l+=1
 list[l]="TwistedMaky" l+=1
 list[l]="TheBlazePage" l+=1
 
+var contributors, cont_final, z;
+z=0
+contributors[z]="LilyPads07" z+=1
+contributors[z]="SA64ds" z+=1
+contributors[z]="dudujesus664" z+=1
+contributors[z]="sejoczay-gif" z+=1
+contributors[z]="possiblyamagicmage" z+=1
+contributors[z]="LYB4" z+=1
+contributors[z]="WanderingLetterS" z+=1
+contributors[z]="CowboyJoseph64" z+=1
+contributors[z]="nekonesse" z+=1
+contributors[z]="MosterSMTH" z+=1
+contributors[z]="SuperSani24" z+=1
+contributors[z]="Poker500" z+=1
+contributors[z]="ChristianJ32307" z+=1
+contributors[z]="todadoat" z+=1
+var v;
+cont_final=""
+for (v=0;v<z;v+=1) {
+    cont_final+=contributors[v]
+    if (v<z-1) {
+        if (v mod 3==2) cont_final+="#"
+        else cont_final+=" - "
+    }
+}
+
 //shuffle betas
 for (i=l-1;i>0;i-=1) {
     j=irandom(i)
@@ -133,6 +159,9 @@ TheMaurii64 - BonesMilk
 
 "+betas+"
 
+[GitHub Contributors]
+
+"+cont_final+"
 
 [Special Thanks]
 
