@@ -170,7 +170,7 @@ if (pause) {
     }
 } else if (!global.playback && !global.kill) {
     if (esc && global.lemontest) room_goto(lemon)
-    else {
+    else if !player.suppress_pause {
         with (player) if ((sbut || esc) && !reset && !settings("kidresetbuf")) with (other) {
             pause=1
             pauseplayer=other.p2
@@ -207,5 +207,5 @@ if (pause) {
             if (plock) pause=0
             else {game_pause() sound("systempause")}
         } else plock=0
-    }
+    }// else with player {if suppress_pause && esc {sbut=1}}
 }
