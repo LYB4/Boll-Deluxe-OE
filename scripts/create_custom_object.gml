@@ -1,6 +1,6 @@
 ///create_custom_object(x,y,objid)
 if is_string(obj) {
-    var objtype;
+    var objtype,o,_obj;
     objtype=argument2
     switch(ds_map_find_value(global.customobjecttypes,objtype)) {
         case "enemy":
