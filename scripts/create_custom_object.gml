@@ -1,5 +1,5 @@
 ///create_custom_object(x,y,objid)
-if is_string(obj) {
+if is_string(argument2) {
     var objtype,o,_obj;
     objtype=argument2
     switch(ds_map_find_value(global.customobjecttypes,objtype)) {
