@@ -1224,3 +1224,6 @@ customobjectcollider
 customobjecthittable
 customobjectmoving
 introbackgroundhill
+customobjectphaser
+customobjectmovingphaser
+customobjectbarrier

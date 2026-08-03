@@ -79,8 +79,6 @@ myobjdir = global.workdir+"SBDX_mods\object\"+mytype+"\"
 if (createevent != 0) {
     code_execute(createevent)
 }
-
-channelid=unreal(channelid,0)
 #define Draw_0
 /*"/*'/**//* YYD ACTION
 lib_id=1

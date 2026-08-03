@@ -694,8 +694,11 @@
 			|customobject
 			|customobjectenemy
 			|customobjectcollider
+			|customobjectbarrier
+			|customobjectphaser
 			|customobjecthittable
 			|customobjectmoving
+			|customobjectmovingphaser
 		|staticdummy
 		|objectdummy
 		|enemydummy
