@@ -144,6 +144,7 @@
 		|spr_menumusic
 		|spr_discord
 		|spr_afttoggle
+		|spr_replaytoggle
 	+results
 		|spr_graph
 		|spr_resulticons
