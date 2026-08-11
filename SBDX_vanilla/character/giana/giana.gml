@@ -30,6 +30,7 @@ Punk Giana
 #define start
 mask_set(12,15)
 autorun=0
+skipmush=1
 global.animatePrincess=1
 
 #define grabbedflagpole

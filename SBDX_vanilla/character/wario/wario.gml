@@ -896,7 +896,7 @@ fall=1
 vsp=min(1,vsp/2)
 jumpspd=1
 }
-water=1 wf=0.45 roll=0
+water=1 wf=0.45 roll=0 brakingmach=0 machbash=0 machrun=0 machtime=0
 if (carry && carryid) {with (carryid) event_user(0) carryid=noone carry=0}
 } else {
 if (water) {
